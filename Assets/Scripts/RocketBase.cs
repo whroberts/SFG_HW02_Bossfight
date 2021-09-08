@@ -2,30 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RocketBase : MonoBehaviour
+public abstract class RocketBase : MonoBehaviour
 {
+
+    protected abstract void ShootProjectile(GameObject projectile);
+
     [SerializeField] Transform _barrel;
     [SerializeField] int _damageValue = 1;
 
-    [SerializeField] GameObject _rocket;
+    [SerializeField] ParticleSystem _launchEffect;
+    [SerializeField] ParticleSystem _hitEffect;
+    [SerializeField] AudioClip _launchSound;
+    [SerializeField] AudioClip _hitSound;
 
     private void OnCollisionEnter(Collision collision)
     {
         GameObject collisionObject = collision.gameObject;
         ProjectileImpact(collisionObject);
-    }
-
-    protected virtual void ShootProjectile(GameObject projectile)
-    {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            GameObject newProjectile = (GameObject) Instantiate(projectile, _barrel, true);
-        }
-    }
-
-    protected virtual void ShotEffects()
-    {
-
     }
 
     protected virtual void ProjectileImpact(GameObject collisionObject)
