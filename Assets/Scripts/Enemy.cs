@@ -1,43 +1,29 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class Enemy : MonoBehaviour
 {
-    [Header("Attributes")]
-    [SerializeField] int _maxHealth = 5;
-    [SerializeField] int _currentHealth = 0;
+    int _maxHealth = 2;
+    int _currentHealth = 0;
 
-    Rigidbody _rb;
-
-    private void Awake()
-    {
-        _rb = GetComponent<Rigidbody>();
-    }
-
-    void Start()
+    private void Start()
     {
         _currentHealth = _maxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Damage(int damageAmount)
     {
-        
-    }
-
-    public void DecreaseHealth(int damageValue)
-    {
-        _currentHealth -= damageValue;
+        _currentHealth -= damageAmount;
         HealthCheck();
     }
 
     private void HealthCheck()
     {
-        if (_currentHealth <= 0)
+        //check for death
+        if (_currentHealth <= 0 )
         {
             Destroy(this.gameObject);
         }
     }
-}
+ }
