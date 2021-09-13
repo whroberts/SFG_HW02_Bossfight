@@ -10,11 +10,9 @@ public abstract class ProjectileBase : MonoBehaviour
     [SerializeField] int _damageValue = 1;
     [SerializeField] protected float _travelSpeed = 10f;
 
-    [Header("Effects")]
+    [Header("Standard Effects")]
     [SerializeField] ParticleSystem _launchEffect;
-    [SerializeField] ParticleSystem _onDamagebleHitEffect;
-    [SerializeField] ParticleSystem _onObjectHitEffect;
-    [SerializeField] ParticleSystem _explosionEffect;
+    [SerializeField] ParticleSystem _onHitEffect;
     [SerializeField] AudioClip _launchSound;
     [SerializeField] AudioClip _onHitSound;
 
@@ -52,12 +50,25 @@ public abstract class ProjectileBase : MonoBehaviour
             _tc._loaded = false;
         }
     }
+
+    protected void LaunchFeedback()
+    {
+        AudioHelper.PlayClip2D(_launchSound, 1f, 0f);
+        _launchEffect.Play();
+    }
     
 
     private void ImpactFeedback()
     {
-        //play stuff
-        Destroy(_tc.newProjectile);
+        AudioHelper.PlayClip2D(_onHitSound, 1f, 0f);
+        _onHitEffect.Play();
+
+        MeshRenderer mesh = GetComponentInChildren<MeshRenderer>();
+        Collider col = GetComponentInChildren<Collider>();
+
+        mesh.enabled = false;
+        col.enabled = false;
+        Destroy(_tc.newProjectile, 3f);
     }
 
     

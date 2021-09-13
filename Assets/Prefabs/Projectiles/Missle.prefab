@@ -78,6 +78,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damageValue: 1
   _travelSpeed: 10
+  _launchEffect: {fileID: 1391148659358212689, guid: 3010cf8d40621854c9677b76cec757bd,
+    type: 3}
+  _onHitEffect: {fileID: 45476131752839489, guid: 3282cc33e2de02541bf4fe28a0ca6e67,
+    type: 3}
+  _launchSound: {fileID: 8300000, guid: 76983b751eab17c4ab02ab3c565a8452, type: 3}
+  _onHitSound: {fileID: 8300000, guid: 91c61d38b4d0c48499af5880c5076b93, type: 3}
 --- !u!1 &5636231993401259883
 GameObject:
   m_ObjectHideFlags: 0

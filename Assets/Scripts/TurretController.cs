@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TurretController : MonoBehaviour
 {
-    [SerializeField] GameObject _missle;
+    [SerializeField] GameObject _missile;
 
     Transform _turret;
 
@@ -20,7 +20,7 @@ public class TurretController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            LoadProjectile(_missle);
+            LoadProjectile(_missile);
         }
     }
     private void LoadProjectile(GameObject projectile)
