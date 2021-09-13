@@ -8,6 +8,15 @@ public abstract class ProjectileBase : MonoBehaviour
 
     [Header("Stats")]
     [SerializeField] int _damageValue = 1;
+    [SerializeField] protected float _travelSpeed = 10f;
+
+    [Header("Effects")]
+    [SerializeField] ParticleSystem _launchEffect;
+    [SerializeField] ParticleSystem _onDamagebleHitEffect;
+    [SerializeField] ParticleSystem _onObjectHitEffect;
+    [SerializeField] ParticleSystem _explosionEffect;
+    [SerializeField] AudioClip _launchSound;
+    [SerializeField] AudioClip _onHitSound;
 
     TurretController _tc;
 

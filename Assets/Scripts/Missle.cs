@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class Missle : ProjectileBase
 {
-    [SerializeField] float _travelSpeed = 10f;
-
-    [Header("Effects")]
-
     protected override void ShootProjectile(GameObject missle)
     {
         Debug.Log("Shoot Missle");
