@@ -11,5 +11,9 @@ public class ChargeOrb : ProjectileBase
         Rigidbody rb;
         rb = orb.GetComponent<Rigidbody>();
         rb.velocity *= _travelSpeed;
+
+        orb.transform.localScale = Vector3.one * _tc._timeCharged * 0.5f;
+
+        Destroy(gameObject, 8f);
     }
 }

@@ -7,7 +7,7 @@ public abstract class ProjectileBase : MonoBehaviour
     protected abstract void ShootProjectile(GameObject projectile);
 
     [Header("Stats")]
-    [SerializeField] int _damageValue = 1;
+    [SerializeField] protected float _damageValue = 1;
     [SerializeField] protected float _travelSpeed = 10f;
 
     [Header("Standard Effects")]
@@ -16,13 +16,17 @@ public abstract class ProjectileBase : MonoBehaviour
     [SerializeField] AudioClip _launchSound;
     [SerializeField] AudioClip _onHitSound;
 
-    TurretController _tc;
-
-    
+    protected TurretController _tc;
 
     private void Awake()
     {
         _tc = FindObjectOfType<TurretController>();
+    }
+
+    private void Start()
+    {
+        ShootProjectile(_tc.newProjectile);
+        LaunchFeedback();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -37,35 +41,40 @@ public abstract class ProjectileBase : MonoBehaviour
             {
                 enemy.Damage(_damageValue);
             }
-            //ImpactFeedback();
+            ImpactFeedback();
         }
     }
 
-    
-
-    private void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        if (_tc._loaded)
+        Player player = other.gameObject.GetComponent<Player>();
+
+        if (player == null)
         {
-            ShootProjectile(_tc.newProjectile);
-            //LaunchFeedback();
-            _tc._loaded = false;
+            Enemy enemy = other.gameObject.GetComponent<Enemy>();
+
+            if (enemy != null)
+            {
+                enemy.Damage(_damageValue);
+                Debug.Log(_damageValue);
+            }
+            ImpactFeedback();
         }
     }
 
     protected void LaunchFeedback()
     {
-        AudioHelper.PlayClip2D(_launchSound, .05f, 1.5f);
-        print("play");
+        AudioHelper.PlayClip2D(_launchSound, .05f, _launchSound.length);
 
         ParticleSystem newSystem = Instantiate(_launchEffect, _tc.transform, false);
         newSystem.Play();
+        Destroy(newSystem.gameObject, newSystem.main.duration);
     }
     
 
     private void ImpactFeedback()
     {
-        AudioHelper.PlayClip2D(_onHitSound, .1f, 2.5f);
+        AudioHelper.PlayClip2D(_onHitSound, .1f, _onHitSound.length);
 
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.velocity = Vector3.zero;
@@ -73,8 +82,8 @@ public abstract class ProjectileBase : MonoBehaviour
         MeshRenderer mesh = GetComponentInChildren<MeshRenderer>();
         Collider col = GetComponentInChildren<Collider>();
 
-        ParticleSystem newSystem = Instantiate(_onHitEffect, _tc.newProjectile.transform, false);
-        newSystem.Play();
+        ParticleSystem impactSystem = Instantiate(_onHitEffect, _tc.newProjectile.transform, false);
+        impactSystem.Play();
 
         mesh.enabled = false;
         col.enabled = false;

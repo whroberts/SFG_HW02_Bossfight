@@ -10,5 +10,7 @@ public class Missile : ProjectileBase
         Rigidbody rb;
         rb = missile.GetComponent<Rigidbody>();
         rb.velocity *= _travelSpeed;
+
+        Destroy(gameObject, 8f);
     }
 }

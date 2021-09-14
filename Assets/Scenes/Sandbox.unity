@@ -146,7 +146,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 53767332}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.16, z: 2.27}
+  m_LocalPosition: {x: 0, y: -0.16, z: 0.76}
   m_LocalScale: {x: 2.3911834, y: 2.958143, z: 0.83373463}
   m_Children: []
   m_Father: {fileID: 773184508}
@@ -168,8 +168,10 @@ MonoBehaviour:
     type: 3}
   _chargeOrb: {fileID: 5808131411424763232, guid: 61e89b0db2f3755478a8ed9d1b4b8366,
     type: 3}
+  _orbChargeSound: {fileID: 8300000, guid: b95d61c24864d3741ad76a3f173adfc6, type: 3}
   newProjectile: {fileID: 0}
-  _loaded: 0
+  newOrb: {fileID: 0}
+  _timeCharged: 1
 --- !u!1 &139571740
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,14 +467,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773184507}
-  m_LocalRotation: {x: -0.24034546, y: -0, z: -0, w: 0.97068745}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.49, z: 0.26}
   m_LocalScale: {x: 0.41820297, y: 0.33804992, z: 1.1994224}
   m_Children:
   - {fileID: 53767333}
   m_Father: {fileID: 1708869616}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: -27.814001, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &773184509
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -857,7 +859,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1418714775}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.98, z: 6.74}
+  m_LocalPosition: {x: -0.5, y: 0.98, z: 9.88}
   m_LocalScale: {x: 2.4881, y: 2.4881, z: 2.4881}
   m_Children: []
   m_Father: {fileID: 0}

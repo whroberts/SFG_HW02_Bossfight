@@ -8,66 +8,55 @@ public class TurretController : MonoBehaviour
     [SerializeField] GameObject _missile;
     [SerializeField] GameObject _chargeOrb;
 
+    [Header("Effects")]
+    [SerializeField] AudioClip _orbChargeSound;
+
     Transform _turret;
+    AudioSource chargeAudio;
+
+    ProjectileBase _pb;
 
     public GameObject newProjectile;
-    public bool _loaded = false;
+    public GameObject newOrb;
 
     float _beginCharge = 0f;
-    float _timeCharged = 1f;
+    public float _timeCharged = 1f;
+
+    float _lastShot;
+
 
     private void Awake()
     {
         _turret = this.gameObject.transform;
+        _pb = FindObjectOfType<ProjectileBase>();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            //LoadProjectile(_missile);
+            LoadProjectile(_missile);
         }
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             _beginCharge = Time.time;
-            print(_beginCharge);
+            chargeAudio = AudioHelper.PlayClip2D(_orbChargeSound, 0.1f, 15f);
+            print("Down");
 
         } else if (Input.GetKeyUp(KeyCode.Mouse1))
         {
             _timeCharged = Time.time - _beginCharge;
-            print(_timeCharged);
-            ChargeProjectile(_chargeOrb);
+
+            Destroy(chargeAudio.gameObject);
+            LoadProjectile(_chargeOrb);
+            print("Up");
         }
     }
     private void LoadProjectile(GameObject projectile)
     {
-        Debug.Log("Load Projectile");
         newProjectile = Instantiate(projectile, _turret, false);
-
-        newProjectile.transform.localScale = Vector3.one * _timeCharged;
 
         Rigidbody rb = newProjectile.GetComponent<Rigidbody>();
         rb.velocity = _turret.forward;
-        _loaded = true;                 
-        LoadFeedback();
-    }
-
-    private void ChargeProjectile(GameObject projectile)
-    {
-        Debug.Log("Charging Projectile");
-        newProjectile = Instantiate(projectile, _turret, false);
-
-        newProjectile.transform.localScale = Vector3.one * _timeCharged * 2f;
-
-        Rigidbody rb = newProjectile.GetComponent<Rigidbody>();
-        rb.velocity = _turret.forward;
-        _loaded = true;
-        LoadFeedback();
-
-    }
-
-    private void LoadFeedback()
-    {
-        //play effects
     }
 }
