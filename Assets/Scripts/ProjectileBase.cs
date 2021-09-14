@@ -18,6 +18,8 @@ public abstract class ProjectileBase : MonoBehaviour
 
     TurretController _tc;
 
+    
+
     private void Awake()
     {
         _tc = FindObjectOfType<TurretController>();
@@ -35,8 +37,7 @@ public abstract class ProjectileBase : MonoBehaviour
             {
                 enemy.Damage(_damageValue);
             }
-
-            ImpactFeedback();
+            //ImpactFeedback();
         }
     }
 
@@ -47,24 +48,33 @@ public abstract class ProjectileBase : MonoBehaviour
         if (_tc._loaded)
         {
             ShootProjectile(_tc.newProjectile);
+            //LaunchFeedback();
             _tc._loaded = false;
         }
     }
 
     protected void LaunchFeedback()
     {
-        AudioHelper.PlayClip2D(_launchSound, 1f, 0f);
-        _launchEffect.Play();
+        AudioHelper.PlayClip2D(_launchSound, .05f, 1.5f);
+        print("play");
+
+        ParticleSystem newSystem = Instantiate(_launchEffect, _tc.transform, false);
+        newSystem.Play();
     }
     
 
     private void ImpactFeedback()
     {
-        AudioHelper.PlayClip2D(_onHitSound, 1f, 0f);
-        _onHitEffect.Play();
+        AudioHelper.PlayClip2D(_onHitSound, .1f, 2.5f);
 
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.velocity = Vector3.zero;
+        rb.freezeRotation = true;
         MeshRenderer mesh = GetComponentInChildren<MeshRenderer>();
         Collider col = GetComponentInChildren<Collider>();
+
+        ParticleSystem newSystem = Instantiate(_onHitEffect, _tc.newProjectile.transform, false);
+        newSystem.Play();
 
         mesh.enabled = false;
         col.enabled = false;

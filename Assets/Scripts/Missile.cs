@@ -10,6 +10,5 @@ public class Missile : ProjectileBase
         Rigidbody rb;
         rb = missile.GetComponent<Rigidbody>();
         rb.velocity *= _travelSpeed;
-        LaunchFeedback();
     }
 }
