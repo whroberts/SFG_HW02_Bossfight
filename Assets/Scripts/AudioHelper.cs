@@ -4,10 +4,10 @@ using UnityEngine;
 
 public static class AudioHelper
 {
-    public static AudioSource PlayClip2D(AudioClip clip, float volume, float time)
+    public static AudioSource PlayClip2D(AudioClip clip, string name, float volume, float time)
     {
         //create
-        GameObject audioObject = new GameObject("Audio2D");
+        GameObject audioObject = new GameObject("Audio2D: " + name);
         AudioSource audioSource = audioObject.AddComponent<AudioSource>();
 
         //configure

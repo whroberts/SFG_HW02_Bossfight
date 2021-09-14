@@ -26,7 +26,6 @@ public abstract class ProjectileBase : MonoBehaviour
     private void Start()
     {
         ShootProjectile(_tc.newProjectile);
-        LaunchFeedback();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -47,34 +46,37 @@ public abstract class ProjectileBase : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Player player = other.gameObject.GetComponent<Player>();
+        Enemy enemy = other.gameObject.GetComponent<Enemy>();
 
-        if (player == null)
+        if (enemy != null)
         {
-            Enemy enemy = other.gameObject.GetComponent<Enemy>();
-
-            if (enemy != null)
-            {
-                enemy.Damage(_damageValue);
-                Debug.Log(_damageValue);
-            }
+            enemy.Damage(_damageValue);
+            Debug.Log(_damageValue);
             ImpactFeedback();
         }
     }
 
     protected void LaunchFeedback()
     {
-        AudioHelper.PlayClip2D(_launchSound, .05f, _launchSound.length);
+        AudioHelper.PlayClip2D(_launchSound, "Launch Feedback: " + _tc.newProjectile.name, .05f, _launchSound.length);
 
-        ParticleSystem newSystem = Instantiate(_launchEffect, _tc.transform, false);
-        newSystem.Play();
-        Destroy(newSystem.gameObject, newSystem.main.duration);
+        ParticleSystem launchParticleEffect = Instantiate(_launchEffect, _tc.transform, false);
+        launchParticleEffect.Play();
+        Destroy(launchParticleEffect.gameObject, launchParticleEffect.main.duration);
     }
     
 
-    private void ImpactFeedback()
+    protected void ImpactFeedback()
     {
-        AudioHelper.PlayClip2D(_onHitSound, .1f, _onHitSound.length);
+        AudioSource[] sceneSources = FindObjectsOfType<AudioSource>();
+
+        for (int i = 0; i < sceneSources.Length; i++)
+        {
+            Debug.Log("This Source Is: " + sceneSources[i]);
+            Destroy(sceneSources[i].gameObject);
+        }
+
+        AudioHelper.PlayClip2D(_onHitSound, "Impact Sound: " + _tc.newProjectile.name, .1f, _onHitSound.length);
 
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.velocity = Vector3.zero;

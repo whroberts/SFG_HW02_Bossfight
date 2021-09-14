@@ -40,8 +40,7 @@ public class TurretController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             _beginCharge = Time.time;
-            chargeAudio = AudioHelper.PlayClip2D(_orbChargeSound, 0.1f, 15f);
-            print("Down");
+            chargeAudio = AudioHelper.PlayClip2D(_orbChargeSound, "Charge Audio: " + _chargeOrb.name, 0.1f, 15f);
 
         } else if (Input.GetKeyUp(KeyCode.Mouse1))
         {
@@ -49,7 +48,6 @@ public class TurretController : MonoBehaviour
 
             Destroy(chargeAudio.gameObject);
             LoadProjectile(_chargeOrb);
-            print("Up");
         }
     }
     private void LoadProjectile(GameObject projectile)
