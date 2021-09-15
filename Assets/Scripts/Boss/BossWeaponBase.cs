@@ -11,6 +11,9 @@ public abstract class BossWeaponBase : MonoBehaviour
     [SerializeField] protected float _launchSpeed;
     [SerializeField] protected float _rotationStep;
 
+    [Header("Effects")]
+    [SerializeField] ParticleSystem _impactEffect;
+
     protected BossWeaponController _bc;
     protected Rigidbody _rb;
 
@@ -22,7 +25,12 @@ public abstract class BossWeaponBase : MonoBehaviour
 
     private void Start()
     {
-        Attack(_bc.newWeapon);
+        Attack(gameObject);
+    }
+
+    private void FixedUpdate()
+    {
+        RotateEvent();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -31,18 +39,32 @@ public abstract class BossWeaponBase : MonoBehaviour
 
         if (player != null)
         {
-
             Destroy(gameObject);
         }
-    }
 
+        if (collision.gameObject.name.Contains("Ground"))
+        {
+            Impact();
+        } 
+    }
+    
     protected virtual void RotateEvent()
     {
         Debug.Log("Rotate Event Function");
     }
 
-    private void FixedUpdate()
+    protected virtual void Impact()
     {
-        RotateEvent();
+        MeshRenderer mesh = GetComponent<MeshRenderer>();
+        Collider col = GetComponent<Collider>();
+        mesh.enabled = false;
+        col.enabled = false;
+        _rb.freezeRotation = true;
+
+        ParticleSystem impactEffect = Instantiate(_impactEffect);
+        impactEffect.gameObject.transform.position = gameObject.transform.position;
+        Destroy(impactEffect, 0.5f);
+
+        Destroy(gameObject, 3f);
     }
 }

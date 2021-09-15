@@ -7,19 +7,23 @@ public class BossMovement : MonoBehaviour
     [Header("Stats")]
     [SerializeField] float _movementSpeed = 3.0f;
 
+    [Header("Components")]
+    [SerializeField] GameObject _bossArt;
+
     [Header("Outside Information")]
     [SerializeField] Transform _player;
+    [SerializeField] Vector3 _playableAreaMin;
+    [SerializeField] Vector3 _playableAreaMax;
 
     Rigidbody _rb;
 
-    Vector3 _floatingPosition;
     Vector3 _movingPosition;
 
-    bool _moving = false;
+    Vector3 teleportStartingLocation;
+    Vector3 teleportLandingLocation;
 
     float _offset = 10f;
     float _tolerance = 0.05f;
-
 
     private void Awake()
     {
@@ -32,18 +36,18 @@ public class BossMovement : MonoBehaviour
         FollowPlayer();
     }
 
-    void FollowPlayer()
+    private void FollowPlayer()
     {
         transform.LookAt(_player.transform);
         _rb.freezeRotation = true;
 
         if (Vector3.Distance(transform.position, _player.position) > _offset + _tolerance)
         {
-            MovePlayer(true);
+            MoveBoss(true);
         }
         else if (Vector3.Distance(transform.position, _player.position) < _offset - _tolerance)
         {
-            MovePlayer(false);
+            MoveBoss(false);
         }
         else
         {
@@ -51,7 +55,7 @@ public class BossMovement : MonoBehaviour
         }
     }
 
-    void MovePlayer(bool direction)
+    private void MoveBoss(bool direction)
     {
         if (direction)
         {
@@ -63,5 +67,24 @@ public class BossMovement : MonoBehaviour
         }
 
         transform.position = new Vector3(_movingPosition.x, transform.position.y, _movingPosition.z);
+    }
+
+    
+    public IEnumerator Teleport()
+    {
+        teleportStartingLocation = transform.position;
+
+        teleportLandingLocation = new Vector3(Random.Range(_playableAreaMin.x, _playableAreaMax.x),
+            Random.Range(_playableAreaMin.y, _playableAreaMax.y), Random.Range(_playableAreaMin.z, _playableAreaMax.z));
+        _bossArt.SetActive(false);
+
+        Debug.Log("Starting: " + teleportStartingLocation);
+        Debug.Log("Landing: " + teleportLandingLocation);
+
+        yield return new WaitForSeconds(1f);
+
+        transform.position = teleportLandingLocation;
+        _movingPosition = transform.position;
+        _bossArt.SetActive(true);
     }
 }
