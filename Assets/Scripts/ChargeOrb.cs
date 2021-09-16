@@ -20,7 +20,7 @@ public class ChargeOrb : ProjectileBase
 
             orb.transform.localScale = Vector3.one * _tc._timeCharged * 0.5f;
 
-            StartCoroutine("WaitForDestroy");
+            StartCoroutine(WaitForDestroy());
         } 
         else
         {

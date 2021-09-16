@@ -7,12 +7,16 @@ public abstract class BossWeaponBase : MonoBehaviour
 {
     protected abstract void Attack(GameObject weapon);
 
-    [Header("___")]
+    [Header("Stats")]
+    [SerializeField] protected int _damage;
     [SerializeField] protected float _launchSpeed;
     [SerializeField] protected float _rotationStep;
 
     [Header("Effects")]
+    [SerializeField] ParticleSystem _launchEffect;
     [SerializeField] ParticleSystem _impactEffect;
+    [SerializeField] AudioClip _launchAudio;
+    [SerializeField] AudioClip _impactAudio;
 
     protected BossWeaponController _bc;
     protected Rigidbody _rb;
@@ -35,35 +39,49 @@ public abstract class BossWeaponBase : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Player player = collision.gameObject.GetComponent<Player>();
+        PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
 
-        if (player != null)
-        {
-            Destroy(gameObject);
-        }
-
-        if (collision.gameObject.name.Contains("Ground"))
+        if (playerHealth != null)
         {
             Impact();
-        } 
+            playerHealth.TakeDamage(_damage);
+        }
+        else
+        {
+            Impact();
+        }
     }
     
     protected virtual void RotateEvent()
     {
-        Debug.Log("Rotate Event Function");
+        //Debug.Log("Rotate Event Function");
     }
 
     protected virtual void Impact()
     {
         MeshRenderer mesh = GetComponent<MeshRenderer>();
         Collider col = GetComponent<Collider>();
-        mesh.enabled = false;
-        col.enabled = false;
+
+        if (mesh != null && col != null)
+        {
+            mesh.enabled = false;
+            col.enabled = false;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         _rb.freezeRotation = true;
 
-        ParticleSystem impactEffect = Instantiate(_impactEffect);
-        impactEffect.gameObject.transform.position = gameObject.transform.position;
-        Destroy(impactEffect, 0.5f);
+        if (_impactEffect != null)
+        {
+            ParticleSystem impactEffect = Instantiate(_impactEffect);
+            impactEffect.gameObject.transform.position = gameObject.transform.position;
+            Destroy(impactEffect, 0.5f);
+
+            AudioSource impactAudio = AudioHelper.PlayClip2D(_impactAudio, "Impact Sound: " + gameObject.name, 0.1f, _impactAudio.length);
+            Destroy(impactAudio, _impactAudio.length);
+        }
 
         Destroy(gameObject, 3f);
     }

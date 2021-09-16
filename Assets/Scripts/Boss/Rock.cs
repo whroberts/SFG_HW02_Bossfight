@@ -7,7 +7,11 @@ public class Rock : BossWeaponBase
     protected override void Attack(GameObject weapon)
     {
         weapon.transform.position = _bc._launcher.position;
-        _rb.velocity = _bc._launcher.up * _launchSpeed;
+        weapon.transform.position = new Vector3(weapon.transform.position.x + Random.Range(-5f, 5f), 
+            weapon.transform.position.y + Random.Range(-0.5f, 1f), weapon.transform.position.z + Random.Range(-2f, 2f));
+        _rb.velocity = _bc._launcher.up * _launchSpeed * Random.Range(0.75f, 2f);
+
+        Destroy(gameObject, 5f);
     }
 
     

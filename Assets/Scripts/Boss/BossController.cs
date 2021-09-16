@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class BossController : MonoBehaviour
 {
+    [SerializeField] float _eventDelay = 5f;
+
     BossMovement _bossMovement;
     BossWeaponController _bossWeaponController;
 
+    public float _lastEvent;
 
     private void Awake()
     {
@@ -14,47 +17,52 @@ public class BossController : MonoBehaviour
         _bossWeaponController = GetComponent<BossWeaponController>();
     }
 
-    protected void EventRandomization()
+    private void Update()
+    {
+        TimeSinceLastEvent();
+    }
+
+    public void EventRandomization()
     {
         float randomizeAttack = Random.Range(0f, 1f);
 
-        if ((randomizeAttack <= 1.0f) && (randomizeAttack > 0.8f))
+        if ((randomizeAttack <= 1.0f) && (randomizeAttack > 0.75f))
         {
-            Debug.Log("Initialize Saw Blade");
+            //Debug.Log("Initialize Saw Blade");
             _bossWeaponController.SawBladeAttack();
         }
-        else if ((randomizeAttack <= 0.8f) && (randomizeAttack > 0.6))
+        else if ((randomizeAttack <= 0.75f) && (randomizeAttack > 0.5))
         {
-            Debug.Log("Initialize Rocket Launcher");
+           //Debug.Log("Initialize Rocket Launcher");
+            _bossWeaponController.Rocket();
         }
-        else if ((randomizeAttack <= 0.6f) && (randomizeAttack > 0.4f))
+        else if ((randomizeAttack <= 0.5f) && (randomizeAttack > 0.25f))
         {
-            Debug.Log("Initialize Teleport");
+            //Debug.Log("Initialize Teleport");
             StartCoroutine(_bossMovement.Teleport());
         }
-        else if ((randomizeAttack <= 0.2f) && (randomizeAttack >= 0.0f))
+        else if ((randomizeAttack <= 0.25f) && (randomizeAttack >= 0.0f))
         {
-            Debug.Log("Initialize Falling Rocks");
-            _bossWeaponController.RockAttack();
+            //Debug.Log("Initialize Falling Rocks");
+            StartCoroutine(_bossWeaponController.RocksAttack());
 
+        }
+    }
+
+    void TimeSinceLastEvent()
+    {
+        if (Time.time - _lastEvent >= _eventDelay)
+        {
+            EventRandomization();
+            _lastEvent = Time.time;
         }
     }
 
     public void EventTest()
     {
-        bool x = true;
-
-        if (x)
+        if (true)
         {
-            //Debug.Log("Initialize Saw Blade");
-            //_bossWeaponController.SawBladeAttack();
-            _bossWeaponController.RockAttack();
-        }
-
-        if (!x)
-        {
-            Debug.Log("Initialize Teleport");
-            StartCoroutine(_bossMovement.Teleport());
+            _bossWeaponController.Rocket();
         }
     }
 }

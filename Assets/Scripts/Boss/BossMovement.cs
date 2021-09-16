@@ -5,7 +5,8 @@ using UnityEngine;
 public class BossMovement : MonoBehaviour
 {
     [Header("Stats")]
-    [SerializeField] float _movementSpeed = 3.0f;
+    [SerializeField] float _movementSpeed = 5.0f;
+    [SerializeField] float _turnSpeed = 3.0f;
 
     [Header("Components")]
     [SerializeField] GameObject _bossArt;
@@ -22,8 +23,8 @@ public class BossMovement : MonoBehaviour
     Vector3 teleportStartingLocation;
     Vector3 teleportLandingLocation;
 
-    float _offset = 10f;
-    float _tolerance = 0.05f;
+    float _offset = 20f;
+    float _tolerance = 5f;
 
     private void Awake()
     {
@@ -77,9 +78,6 @@ public class BossMovement : MonoBehaviour
         teleportLandingLocation = new Vector3(Random.Range(_playableAreaMin.x, _playableAreaMax.x),
             Random.Range(_playableAreaMin.y, _playableAreaMax.y), Random.Range(_playableAreaMin.z, _playableAreaMax.z));
         _bossArt.SetActive(false);
-
-        Debug.Log("Starting: " + teleportStartingLocation);
-        Debug.Log("Landing: " + teleportLandingLocation);
 
         yield return new WaitForSeconds(1f);
 

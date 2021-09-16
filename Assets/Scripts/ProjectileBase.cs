@@ -7,7 +7,7 @@ public abstract class ProjectileBase : MonoBehaviour
     protected abstract void ShootProjectile(GameObject projectile);
 
     [Header("Stats")]
-    [SerializeField] protected float _damageValue = 1;
+    [SerializeField] protected int _damageValue = 1;
     [SerializeField] protected float _travelSpeed = 10f;
 
     [Header("Standard Effects")]
@@ -31,14 +31,16 @@ public abstract class ProjectileBase : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Player player = collision.gameObject.GetComponent<Player>();
+        PlayerDetection playerDetection = collision.gameObject.GetComponent<PlayerDetection>();
 
-        if (player == null)
+        if (playerDetection == null && player == null)
         {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            BossHealth bossHealth = collision.gameObject.GetComponent<BossHealth>();
 
-            if (enemy != null)
+            if (bossHealth != null)
             {
-                enemy.Damage(_damageValue);
+                bossHealth.TakeDamage(_damageValue);
+                ImpactFeedback();
             }
             ImpactFeedback();
         }
@@ -46,12 +48,18 @@ public abstract class ProjectileBase : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Enemy enemy = other.gameObject.GetComponent<Enemy>();
+        Player player = other.gameObject.GetComponent<Player>();
+        PlayerDetection playerDetection = other.gameObject.GetComponent<PlayerDetection>();
 
-        if (enemy != null)
+        if (playerDetection == null && player == null)
         {
-            enemy.Damage(_damageValue);
-            Debug.Log(_damageValue);
+            BossHealth bossHealth = other.gameObject.GetComponent<BossHealth>();
+
+            if (bossHealth != null)
+            {
+                bossHealth.TakeDamage(_damageValue * (int)gameObject.transform.localScale.x);
+                ImpactFeedback();
+            }
             ImpactFeedback();
         }
     }
@@ -72,7 +80,7 @@ public abstract class ProjectileBase : MonoBehaviour
 
         for (int i = 0; i < sceneSources.Length; i++)
         {
-            Debug.Log("This Source Is: " + sceneSources[i]);
+            //Debug.Log("This Source Is: " + sceneSources[i]);
             Destroy(sceneSources[i].gameObject);
         }
 
