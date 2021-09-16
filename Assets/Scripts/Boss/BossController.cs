@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossController : MonoBehaviour
 {
-    [SerializeField] float _eventDelay = 5f;
+    [SerializeField] float _eventDelay = 2f;
 
     BossMovement _bossMovement;
     BossWeaponController _bossWeaponController;

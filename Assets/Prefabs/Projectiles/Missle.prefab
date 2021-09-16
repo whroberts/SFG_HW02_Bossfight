@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d38fc3d41c96c484dbf63310e60289cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damageValue: 1
+  _damageValue: 5
   _travelSpeed: 10
   _launchEffect: {fileID: 1391148659358212689, guid: 3010cf8d40621854c9677b76cec757bd,
     type: 3}

@@ -957,7 +957,7 @@ MonoBehaviour:
     type: 3}
   _impactEffect: {fileID: 6072728186875048445, guid: 403c4b396901b114a858f1a283ea5196,
     type: 3}
-  _launchAudio: {fileID: 8300000, guid: 224c914ebdf7db04eae42f2a262e06f2, type: 3}
+  _launchAudio: {fileID: 8300000, guid: 76983b751eab17c4ab02ab3c565a8452, type: 3}
   _impactAudio: {fileID: 8300000, guid: fe34db32caec9c740b2451f55f8584bf, type: 3}
 --- !u!1 &7252616387273250743
 GameObject:

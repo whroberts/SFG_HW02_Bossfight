@@ -25,7 +25,7 @@ public abstract class ProjectileBase : MonoBehaviour
 
     private void Start()
     {
-        ShootProjectile(_tc.newProjectile);
+        ShootProjectile(gameObject);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -35,11 +35,11 @@ public abstract class ProjectileBase : MonoBehaviour
 
         if (playerDetection == null && player == null)
         {
-            BossHealth bossHealth = collision.gameObject.GetComponent<BossHealth>();
+            IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
 
-            if (bossHealth != null)
+            if (damageable != null)
             {
-                bossHealth.TakeDamage(_damageValue);
+                damageable.TakeDamage(_damageValue);
                 ImpactFeedback();
             }
             ImpactFeedback();
@@ -53,11 +53,11 @@ public abstract class ProjectileBase : MonoBehaviour
 
         if (playerDetection == null && player == null)
         {
-            BossHealth bossHealth = other.gameObject.GetComponent<BossHealth>();
+            IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
 
-            if (bossHealth != null)
+            if (damageable != null)
             {
-                bossHealth.TakeDamage(_damageValue * (int)gameObject.transform.localScale.x);
+                damageable.TakeDamage(_damageValue * (int)gameObject.transform.localScale.x);
                 ImpactFeedback();
             }
             ImpactFeedback();
@@ -66,7 +66,7 @@ public abstract class ProjectileBase : MonoBehaviour
 
     protected void LaunchFeedback()
     {
-        AudioHelper.PlayClip2D(_launchSound, "Launch Feedback: " + _tc.newProjectile.name, .05f, _launchSound.length);
+        AudioHelper.PlayClip2D(_launchSound, "Launch Feedback: " + _tc.newProjectile.name, .01f, _launchSound.length);
 
         ParticleSystem launchParticleEffect = Instantiate(_launchEffect, _tc.transform, false);
         launchParticleEffect.Play();
@@ -84,7 +84,7 @@ public abstract class ProjectileBase : MonoBehaviour
             Destroy(sceneSources[i].gameObject);
         }
 
-        AudioHelper.PlayClip2D(_onHitSound, "Impact Sound: " + _tc.newProjectile.name, .1f, _onHitSound.length);
+        AudioHelper.PlayClip2D(_onHitSound, "Impact Sound: " + _tc.newProjectile.name, .01f, _onHitSound.length);
 
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.velocity = Vector3.zero;
@@ -97,7 +97,7 @@ public abstract class ProjectileBase : MonoBehaviour
 
         mesh.enabled = false;
         col.enabled = false;
-        Destroy(_tc.newProjectile, 3f);
+        Destroy(gameObject, 3f);
     }
 
     

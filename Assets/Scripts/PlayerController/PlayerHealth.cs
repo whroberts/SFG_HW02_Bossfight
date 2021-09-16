@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
+    [SerializeField] ParticleSystem _deathEffect;
     private int _maxHealth = 100;
     public int _currentHealth = 0;
 
@@ -25,6 +26,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private void Kill()
     {
+        Instantiate(_deathEffect, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }

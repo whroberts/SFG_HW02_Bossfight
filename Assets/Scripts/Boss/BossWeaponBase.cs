@@ -30,6 +30,8 @@ public abstract class BossWeaponBase : MonoBehaviour
     private void Start()
     {
         Attack(gameObject);
+        Launch();
+
     }
 
     private void FixedUpdate()
@@ -39,12 +41,12 @@ public abstract class BossWeaponBase : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+        IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
 
-        if (playerHealth != null)
+        if (damageable != null)
         {
             Impact();
-            playerHealth.TakeDamage(_damage);
+            damageable.TakeDamage(_damage);
         }
         else
         {
@@ -57,6 +59,17 @@ public abstract class BossWeaponBase : MonoBehaviour
         //Debug.Log("Rotate Event Function");
     }
 
+    protected virtual void Launch()
+    {
+        ParticleSystem launchEffect = Instantiate(_launchEffect);
+        launchEffect.gameObject.transform.position = gameObject.transform.position;
+        Destroy(launchEffect.gameObject, 0.5f);
+
+        AudioSource launchAudio = AudioHelper.PlayClip2D(_launchAudio, "Launch Sound: " + gameObject.name, 0.01f, _launchAudio.length);
+        Destroy(launchAudio.gameObject, _launchAudio.length);
+    }
+
+
     protected virtual void Impact()
     {
         MeshRenderer mesh = GetComponent<MeshRenderer>();
@@ -67,22 +80,17 @@ public abstract class BossWeaponBase : MonoBehaviour
             mesh.enabled = false;
             col.enabled = false;
         }
-        else
-        {
-            Destroy(gameObject);
-        }
         _rb.freezeRotation = true;
 
         if (_impactEffect != null)
         {
             ParticleSystem impactEffect = Instantiate(_impactEffect);
             impactEffect.gameObject.transform.position = gameObject.transform.position;
-            Destroy(impactEffect, 0.5f);
+            Destroy(impactEffect.gameObject, 0.5f);
 
-            AudioSource impactAudio = AudioHelper.PlayClip2D(_impactAudio, "Impact Sound: " + gameObject.name, 0.1f, _impactAudio.length);
-            Destroy(impactAudio, _impactAudio.length);
+            AudioSource impactAudio = AudioHelper.PlayClip2D(_impactAudio, "Impact Sound: " + gameObject.name, 0.01f, _impactAudio.length);
+            Destroy(impactAudio.gameObject, 2f);
+            Destroy(gameObject, 3f);
         }
-
-        Destroy(gameObject, 3f);
     }
 }
