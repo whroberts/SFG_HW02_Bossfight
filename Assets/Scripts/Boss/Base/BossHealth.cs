@@ -44,6 +44,7 @@ public class BossHealth : MonoBehaviour, IDamageable
         if (_currentHealth <= 0)
         {
             Kill();
+            Killed?.Invoke();
         }
     }
 

@@ -6,12 +6,15 @@ using UnityEngine.UI;
 public class BossHealthBar : MonoBehaviour
 {
     [SerializeField] Slider _healthBar = null;
+    [SerializeField] BossHealth _bossHealth = null;
 
-    public BossHealth BossHealth { get; private set; }
+    //public BossHealth BossHealth { get; private set; }
+
+    public BossHealth BossHealth => _bossHealth;
 
     private void Awake()
     {
-        BossHealth = GetComponentInParent<BossHealth>();
+        //BossHealth = GetComponentInParent<BossHealth>();
 
         _healthBar.maxValue = BossHealth.MaxHealth;
         _healthBar.value = BossHealth.StartingHealth;
