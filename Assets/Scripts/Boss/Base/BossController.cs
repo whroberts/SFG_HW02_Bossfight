@@ -57,12 +57,4 @@ public class BossController : MonoBehaviour
             _lastEvent = Time.time;
         }
     }
-
-    public void EventTest()
-    {
-        if (true)
-        {
-            _bossWeaponController.Rocket();
-        }
-    }
 }

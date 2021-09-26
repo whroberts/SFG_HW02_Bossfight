@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// access actions
+using System;
+
 public class GameController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // subject that will notify observers
+    public event Action PauseGame = delegate { };
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Backspace))
@@ -23,4 +22,14 @@ public class GameController : MonoBehaviour
             Application.Quit();
         }
     }
+
+    /*
+    public void Pause()
+    {
+
+        //notify the observers!
+        PauseGame?.Invoke();
+    }
+    */
+
 }

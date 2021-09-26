@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// for Actions
+using System;
+
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
+    public event Action<int> TookDamage = delegate { };
+
     [SerializeField] ParticleSystem _deathEffect;
     private int _maxHealth = 100;
     public int _currentHealth = 0;
-
     private void Start()
     {
         _currentHealth = _maxHealth;
@@ -16,7 +20,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public void TakeDamage(int amount)
     {
         _currentHealth -= amount;
-        Debug.Log("Player health: " + _currentHealth);
+        TookDamage?.Invoke(amount);
 
         if (_currentHealth <= 0)
         {
