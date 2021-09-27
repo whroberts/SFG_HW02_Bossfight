@@ -100,7 +100,7 @@ public abstract class ProjectileBase : MonoBehaviour
         // declares an audio source array and finds all of the current audio sources in the game
         AudioSource[] sceneSources = FindObjectsOfType<AudioSource>();
 
-        for (int i = 0; i < sceneSources.Length; i++)
+        for (int i = sceneSources.Length-1; i >= 0; i--)
         {
             //destoys all current audio sources
             Destroy(sceneSources[i].gameObject);

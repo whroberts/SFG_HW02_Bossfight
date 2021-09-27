@@ -13,6 +13,8 @@ public class ChargeOrb : ProjectileBase
 
     float _startTime = 0;
     float chargeTime = 0;
+    bool _charging = false;
+    bool _launched = false;
 
     GameObject newOrb;
     Rigidbody _rb;
@@ -20,55 +22,71 @@ public class ChargeOrb : ProjectileBase
     private float _orbSize = 0f;
     public float OrbSize => _orbSize;
 
-    private void Awake()
-    {
-        _chargeBar.enabled = true;
-    }
-
     protected override void ShootProjectile(GameObject orb)
     {
         _startTime = Time.time;
         newOrb = orb;
         _rb = orb.GetComponent<Rigidbody>();
+        ChargeBar.enabled = true;
     }
 
     private void Update()
     {
         CurrentlyCharging(newOrb);
-        LaunchProjectile(newOrb);
     }
 
     private void CurrentlyCharging(GameObject orb)
     {
-        if (_tc.Charging)
+        if (!_launched)
         {
-            _rb.velocity = Vector3.zero;
+            if (_tc.Charging)
+            {
+                _charging = true;
+                _rb.velocity = Vector3.zero;
 
-            orb.transform.localScale = Vector3.one * ChargeTime();
-            _orbSize = orb.transform.localScale.x;
+                orb.transform.localScale = Vector3.one * ChargeTime();
+                _orbSize = orb.transform.localScale.x;
 
-            //Charging?.Invoke();
+            }
+            else if (!_tc.Charging)
+            {
+                _charging = false;
+
+                if (_tc._timeCharged >= _minimumChargeTime)
+                {
+                    _launched = true;
+                    LaunchProjectile();
+                }
+                else if (_tc._timeCharged < _minimumChargeTime)
+                {
+                    Debug.Log("Not Charged");
+                    Destroy(gameObject);
+                    ChargeBar.enabled = false;
+                }
+            }
         }
+
+        Charging?.Invoke();
     }
 
-    private void LaunchProjectile(GameObject orb)
+    private void LaunchProjectile()
     {
-        if (!_tc.Charging && _tc.TimeCharged >= _minimumChargeTime)
+        if (_launched && !_charging)
         {
             Debug.Log("Shoot Orb");
             LaunchFeedback();
-
+            _tc._timeCharged = 0f;
             _rb.velocity = transform.forward * _travelSpeed;
-
+            ChargeBar.enabled = false;
             //StartCoroutine(WaitForDestroy());
         }
-    }
+}
 
     private float ChargeTime()
     {
         chargeTime = Time.time - _startTime;
 
-        return chargeTime;
+        return Mathf.Clamp(chargeTime, 0f, 3f);
     }
 
     IEnumerator WaitForDestroy()
@@ -77,5 +95,10 @@ public class ChargeOrb : ProjectileBase
 
         ImpactFeedback();
         Destroy(gameObject, 8f);
+    }
+
+    private void OnDestroy()
+    {
+        _launched = false;
     }
 }

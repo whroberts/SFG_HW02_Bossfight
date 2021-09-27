@@ -30,8 +30,7 @@ public class TurretController : MonoBehaviour
     private float _beginCharge = 0f;
     public float BeginCharged => _beginCharge;
 
-    private float _timeCharged = 0f;
-    public float TimeCharged => _timeCharged;
+    public float _timeCharged = 0f;
     
     float _lastShot;
     private void Awake()
@@ -58,9 +57,7 @@ public class TurretController : MonoBehaviour
         {
             _timeCharged = Time.time - _beginCharge;
             _charging = false;
-            //Charged?.Invoke();
             Destroy(_chargeAudio.gameObject);
-
         }
     }
     private void LoadProjectile(GameObject projectile)
