@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerHealthBar : MonoBehaviour
 {
     [SerializeField] Slider _healthBar = null;
     [SerializeField] PlayerHealth _playerHealth = null;
+    [SerializeField] TMP_Text _healthTextValue = null;
 
     //PlayerHealth PlayerHealth { get; private set; }
     public PlayerHealth PlayerHealth => _playerHealth;
@@ -17,6 +19,7 @@ public class PlayerHealthBar : MonoBehaviour
 
         _healthBar.maxValue = PlayerHealth.MaxHealth;
         _healthBar.value = PlayerHealth.StartingHealth;
+        _healthTextValue.text = PlayerHealth.StartingHealth.ToString() + "/" + PlayerHealth.MaxHealth;
     }
 
     private void OnEnable()
@@ -32,5 +35,6 @@ public class PlayerHealthBar : MonoBehaviour
     void OnTakeDamage(int damage)
     {
         _healthBar.value = PlayerHealth.CurrentHealth;
+        _healthTextValue.text = PlayerHealth.CurrentHealth.ToString() + "/" + PlayerHealth.MaxHealth;
     }
 }

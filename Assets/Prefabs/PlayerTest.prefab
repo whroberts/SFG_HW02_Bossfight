@@ -107,10 +107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7deae910b21a2142adfc1132501442e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 3
-  _currentTreasureCount: 0
-  _currentHealth: 0
-  _invincible: 0
 --- !u!114 &7121686919468172046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,3 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3bc390a6d521ae4a8f1bc2d61b4b865, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _deathEffect: {fileID: 0}
+  _startingHealth: 100
+  _maxHealth: 100

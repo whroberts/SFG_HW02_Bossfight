@@ -11,9 +11,9 @@ public abstract class ProjectileBase : MonoBehaviour
     [SerializeField] protected float _travelSpeed = 10f;
 
     [Header("Standard Effects")]
-    [SerializeField] ParticleSystem _launchEffect;
-    [SerializeField] ParticleSystem _onHitEffect;
-    [SerializeField] AudioClip _launchSound;
+    [SerializeField] ParticleSystem _launchEffect = null;
+    [SerializeField] ParticleSystem _onHitEffect = null;
+    [SerializeField] AudioClip _launchSound = null;
     [SerializeField] AudioClip _onHitSound;
 
     protected TurretController _tc;
@@ -79,14 +79,17 @@ public abstract class ProjectileBase : MonoBehaviour
 
     protected void LaunchFeedback()
     {
-        AudioHelper.PlayClip2D(_launchSound, "Launch Feedback: " + _tc.newProjectile.name, .01f, _launchSound.length);
+        if (_launchSound != null)
+        {
+            AudioHelper.PlayClip2D(_launchSound, "Launch Feedback: " + _tc.newProjectile.name, .01f, _launchSound.length);
+        }
 
-        ParticleSystem launchParticleEffect = Instantiate(_launchEffect, _tc.transform, false);
-        
-        launchParticleEffect.Play();
-
-        //destroys the GameObject of the particle effect after the effect is over
-        Destroy(launchParticleEffect.gameObject, launchParticleEffect.main.duration);
+        if (_launchEffect != null)
+        {
+            ParticleSystem launchParticleEffect = Instantiate(_launchEffect, _tc.transform, false);
+            launchParticleEffect.Play();
+            Destroy(launchParticleEffect.gameObject, launchParticleEffect.main.duration);
+        }
     }
     
 
@@ -101,9 +104,12 @@ public abstract class ProjectileBase : MonoBehaviour
             Destroy(sceneSources[i].gameObject);
         }
 
-        //calls the audio helper and launces an audio source object
-        //adds a name to the object
-        AudioHelper.PlayClip2D(_onHitSound, "Impact Sound: " + _tc.newProjectile.name, .01f, _onHitSound.length);
+        if (_onHitSound != null)
+        {
+            //calls the audio helper and launces an audio source object
+            //adds a name to the object
+            AudioHelper.PlayClip2D(_onHitSound, "Impact Sound: " + _tc.newProjectile.name, .01f, _onHitSound.length);
+        }
 
         Rigidbody rb = GetComponent<Rigidbody>();
         // stops the movement of the projectile
@@ -113,8 +119,11 @@ public abstract class ProjectileBase : MonoBehaviour
         MeshRenderer mesh = GetComponentInChildren<MeshRenderer>();
         Collider col = GetComponentInChildren<Collider>();
 
-        ParticleSystem impactSystem = Instantiate(_onHitEffect, _tc.newProjectile.transform, false);
-        impactSystem.Play();
+        if (_onHitEffect != null)
+        {
+            ParticleSystem impactSystem = Instantiate(_onHitEffect, _tc.newProjectile.transform, false);
+            impactSystem.Play();
+        }
 
         mesh.enabled = false;
         col.enabled = false;

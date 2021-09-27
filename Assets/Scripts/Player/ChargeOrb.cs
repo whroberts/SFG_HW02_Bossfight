@@ -9,7 +9,7 @@ public class ChargeOrb : ProjectileBase
 
     protected override void ShootProjectile(GameObject orb)
     {
-        if (_tc._timeCharged >= _minimumChargeTime)
+        if (_tc.TimeCharged >= _minimumChargeTime)
         {
             Debug.Log("Shoot Orb");
             LaunchFeedback();
@@ -18,7 +18,7 @@ public class ChargeOrb : ProjectileBase
             rb = orb.GetComponent<Rigidbody>();
             rb.velocity *= _travelSpeed;
 
-            orb.transform.localScale = Vector3.one * _tc._timeCharged * 0.5f;
+            orb.transform.localScale = Vector3.one * _tc.TimeCharged * 0.5f;
 
             StartCoroutine(WaitForDestroy());
         } 
