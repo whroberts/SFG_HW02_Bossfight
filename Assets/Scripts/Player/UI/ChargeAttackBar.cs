@@ -12,8 +12,7 @@ public class ChargeAttackBar : MonoBehaviour
 
     public TurretController TurretController => _tc;
 
-    //public ChargeOrbNew ChargeOrb => _chargeOrb;
-    ChargeOrbNew _chargeOrb;
+    [SerializeField] ChargeOrb _chargeOrb = null;
 
     /*
     private void Awake()
@@ -49,14 +48,16 @@ public class ChargeAttackBar : MonoBehaviour
     */
     private void Awake()
     {
-        _chargeOrb = FindObjectOfType<ChargeOrbNew>();
-
         _chargeValueBar.maxValue = 2;
         _chargeValueBar.value = 0;
         _chargeTextValue.text = "0";
     }
 
-    /*
+    private void Start()
+    {
+        _chargeOrb = FindObjectOfType<ChargeOrb>();
+    }
+
     private void OnEnable()
     {
         _chargeOrb.Charging += OnChargeOrb;
@@ -68,11 +69,16 @@ public class ChargeAttackBar : MonoBehaviour
         _chargeOrb.Charging -= OnChargeOrb;
         Debug.Log("Disabled");
     }
-    */
+
+    private void Update()
+    {
+        _chargeOrb = FindObjectOfType<ChargeOrb>();
+    }
 
     void OnChargeOrb()
     {
         _chargeValueBar.value = _chargeOrb.OrbSize;
         _chargeTextValue.text = _chargeOrb.OrbSize.ToString();
     }
+    
 }

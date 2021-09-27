@@ -66,7 +66,6 @@ public class TurretController : MonoBehaviour
     private void LoadProjectile(GameObject projectile)
     {
         newProjectile = Instantiate(projectile, _turret, false);
-
         Rigidbody rb = newProjectile.GetComponent<Rigidbody>();
         rb.velocity = transform.forward;
     }

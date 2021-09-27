@@ -17,10 +17,13 @@ public abstract class ProjectileBase : MonoBehaviour
     [SerializeField] AudioClip _onHitSound;
 
     protected TurretController _tc;
+    private ChargeAttackBar _chargeBar;
+    public ChargeAttackBar ChargeBar => _chargeBar;
 
     private void Awake()
     {
         _tc = FindObjectOfType<TurretController>();
+        _chargeBar = FindObjectOfType<ChargeAttackBar>();
     }
 
     private void Start()
@@ -73,7 +76,6 @@ public abstract class ProjectileBase : MonoBehaviour
                 damageable.TakeDamage(_damageValue * (int)gameObject.transform.localScale.x);
                 ImpactFeedback();
             }
-            ImpactFeedback();
         }
     }
 

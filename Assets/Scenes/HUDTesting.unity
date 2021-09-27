@@ -1183,7 +1183,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14400
+  m_Name: pb_Mesh14290
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2323,7 +2323,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14520
+  m_Name: pb_Mesh14440
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2979,7 +2979,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1164423141}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30b38ff4c02546341a7fca353ddacebd, type: 3}
   m_Name: 
@@ -2987,6 +2987,7 @@ MonoBehaviour:
   _chargeValueBar: {fileID: 96725313}
   _tc: {fileID: 2137934983}
   _chargeTextValue: {fileID: 379857171}
+  _chargeOrb: {fileID: 0}
 --- !u!1 &1218367173
 GameObject:
   m_ObjectHideFlags: 0
@@ -3173,7 +3174,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14496
+  m_Name: pb_Mesh14416
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5749,7 +5750,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14386
+  m_Name: pb_Mesh14276
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5912,7 +5913,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14506
+  m_Name: pb_Mesh14426
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -10900,7 +10901,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _missile: {fileID: 5636231992704264371, guid: 9eeb866576aac1345b6cc18e1760d7d6,
     type: 3}
-  _chargeOrb: {fileID: 5808131411424763232, guid: 4a63fefb56624314caf8f68c2fb9d40d,
+  _chargeOrb: {fileID: 5808131411424763232, guid: 61e89b0db2f3755478a8ed9d1b4b8366,
     type: 3}
   _orbChargeSound: {fileID: 8300000, guid: b95d61c24864d3741ad76a3f173adfc6, type: 3}
   newProjectile: {fileID: 0}
