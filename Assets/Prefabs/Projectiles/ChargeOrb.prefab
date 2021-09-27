@@ -4976,7 +4976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f09b7ef7b88cb5648904303340488c93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damageValue: 1
+  _damageValue: 10
   _travelSpeed: 10
   _launchEffect: {fileID: 177956823}
   _onHitEffect: {fileID: 8948367448753924191, guid: 0066f01335c4f7d4baa79b052bc980cb,

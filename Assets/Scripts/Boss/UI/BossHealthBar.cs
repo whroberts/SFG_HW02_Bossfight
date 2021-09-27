@@ -20,7 +20,7 @@ public class BossHealthBar : MonoBehaviour
 
         _healthBar.maxValue = BossHealth.MaxHealth;
         _healthBar.value = BossHealth.StartingHealth;
-        _healthTextValue.text = BossHealth.StartingHealth.ToString() + "/" + BossHealth.MaxHealth;
+        _healthTextValue.text = Mathf.Round(BossHealth.StartingHealth).ToString() + "/" + BossHealth.MaxHealth;
     }
 
     private void OnEnable()
@@ -33,9 +33,9 @@ public class BossHealthBar : MonoBehaviour
         BossHealth.Damaged -= OnTakeDamage;
     }
 
-    void OnTakeDamage(int damage)
+    void OnTakeDamage(float damage)
     {
         _healthBar.value = BossHealth.CurrentHealth;
-        _healthTextValue.text = BossHealth.CurrentHealth.ToString() + "/" + BossHealth.MaxHealth;
+        _healthTextValue.text = Mathf.Round(BossHealth.CurrentHealth).ToString() + "/" + BossHealth.MaxHealth;
     }
 }

@@ -19,7 +19,7 @@ public class PlayerHealthBar : MonoBehaviour
 
         _healthBar.maxValue = PlayerHealth.MaxHealth;
         _healthBar.value = PlayerHealth.StartingHealth;
-        _healthTextValue.text = PlayerHealth.StartingHealth.ToString() + "/" + PlayerHealth.MaxHealth;
+        _healthTextValue.text = Mathf.Round(PlayerHealth.StartingHealth).ToString() + "/" + PlayerHealth.MaxHealth;
     }
 
     private void OnEnable()
@@ -32,9 +32,9 @@ public class PlayerHealthBar : MonoBehaviour
         PlayerHealth.Damaged -= OnTakeDamage;
     }
 
-    void OnTakeDamage(int damage)
+    void OnTakeDamage(float damage)
     {
         _healthBar.value = PlayerHealth.CurrentHealth;
-        _healthTextValue.text = PlayerHealth.CurrentHealth.ToString() + "/" + PlayerHealth.MaxHealth;
+        _healthTextValue.text = Mathf.Round(PlayerHealth.CurrentHealth).ToString() + "/" + PlayerHealth.MaxHealth;
     }
 }

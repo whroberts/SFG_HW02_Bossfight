@@ -73,7 +73,7 @@ public abstract class ProjectileBase : MonoBehaviour
                 // take damage is scaled to an integer value (will probably be changed),
                 // of the current scale of the charge orb
                 */
-                damageable.TakeDamage(_damageValue * (int)gameObject.transform.localScale.x);
+                damageable.TakeDamage(_damageValue * gameObject.transform.localScale.x);
                 ImpactFeedback();
             }
         }

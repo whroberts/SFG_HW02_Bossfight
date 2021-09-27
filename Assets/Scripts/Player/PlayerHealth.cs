@@ -7,19 +7,19 @@ using System;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    public event Action<int> Damaged = delegate { };
+    public event Action<float> Damaged = delegate { };
 //    public event Action<int> Healed = delegate { };
     public event Action Killed = delegate { };
 
     [SerializeField] ParticleSystem _deathEffect;
-    [SerializeField] int _startingHealth = 100;
-    public int StartingHealth => _startingHealth;
+    [SerializeField] float _startingHealth = 100;
+    public float StartingHealth => _startingHealth;
 
-    [SerializeField] int _maxHealth = 100;
-    public int MaxHealth => _maxHealth;
+    [SerializeField] float _maxHealth = 100;
+    public float MaxHealth => _maxHealth;
 
-    private int _currentHealth = 0;
-    public int CurrentHealth
+    private float _currentHealth = 0;
+    public float CurrentHealth
     {
         get => _currentHealth;
         set
@@ -37,7 +37,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         _currentHealth = _startingHealth;
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         _currentHealth -= amount;
         Damaged?.Invoke(amount);

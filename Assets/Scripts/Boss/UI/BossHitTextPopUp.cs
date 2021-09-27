@@ -35,7 +35,7 @@ public class BossHitTextPopUp : MonoBehaviour
         _observedHealth.Killed -= OnObservedHealthKilled;
     }
 
-    void OnObservedHealthDamaged(int damaged)
+    void OnObservedHealthDamaged(float damaged)
     {
         string hitText = _hitText + " " + damaged.ToString();
 
