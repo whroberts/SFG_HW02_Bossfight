@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class BossWeaponBase : MonoBehaviour
 {
     protected abstract void Attack(GameObject weapon);
+    protected abstract void RotateEvent();
 
     [Header("Stats")]
     [SerializeField] protected int _damage;
@@ -30,7 +31,7 @@ public abstract class BossWeaponBase : MonoBehaviour
     private void Start()
     {
         Attack(gameObject);
-        Launch();
+        LaunchEffect();
 
     }
 
@@ -45,21 +46,16 @@ public abstract class BossWeaponBase : MonoBehaviour
 
         if (damageable != null)
         {
-            Impact();
+            ImpactEffect();
             damageable.TakeDamage(_damage);
         }
         else
         {
-            Impact();
+            ImpactEffect();
         }
     }
-    
-    protected virtual void RotateEvent()
-    {
-        //Debug.Log("Rotate Event Function");
-    }
 
-    protected virtual void Launch()
+    protected virtual void LaunchEffect()
     {
         ParticleSystem launchEffect = Instantiate(_launchEffect);
         launchEffect.gameObject.transform.position = gameObject.transform.position;
@@ -70,7 +66,7 @@ public abstract class BossWeaponBase : MonoBehaviour
     }
 
 
-    protected virtual void Impact()
+    protected virtual void ImpactEffect()
     {
         MeshRenderer mesh = GetComponent<MeshRenderer>();
         Collider col = GetComponent<Collider>();

@@ -4,22 +4,31 @@ using UnityEngine;
 
 public class Rocket : BossWeaponBase
 {
-    protected override void Attack(GameObject weapon)
+    bool _launched = false;
+
+    protected override void Attack(GameObject rocket)
     {
-        StartCoroutine(ShootRocket(weapon));
+        if (!_launched)
+        {
+            ShootRocket(rocket);
+        }
     }
 
     protected override void RotateEvent()
     {
-        base.RotateEvent();
         _bc._rocketArm.transform.LookAt(_bc._player);
     }
 
-    IEnumerator ShootRocket(GameObject weapon)
+    private void ShootRocket(GameObject rocket)
     {
-        weapon.transform.position = _bc._rocketArmBarrel.position;
-        weapon.transform.LookAt(_bc._player);
-        yield return new WaitForSeconds(2f);
-        _rb.velocity = _bc._rocketArmBarrel.forward * _launchSpeed;
+        _rb.transform.position = _bc._rocketArmBarrel.position;
+        _rb.transform.rotation = _bc._rocketArmBarrel.rotation;
+        _rb.velocity = transform.forward * _launchSpeed;
+        _launched = true;
+    }
+
+    private void OnDestroy()
+    {
+        _launched = false;
     }
 }

@@ -13,7 +13,6 @@ public class SawBlade : BossWeaponBase
 
     protected override void RotateEvent()
     {
-        base.RotateEvent();
         _rb.transform.Rotate(Vector3.right * _rotationStep * _launchSpeed * Time.deltaTime);
     }
 }

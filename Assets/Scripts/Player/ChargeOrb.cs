@@ -59,7 +59,6 @@ public class ChargeOrb : ProjectileBase
                 }
                 else if (_tc._timeCharged < _minimumChargeTime)
                 {
-                    Debug.Log("Not Charged");
                     Destroy(gameObject);
                     ChargeBar.enabled = false;
                 }
@@ -73,7 +72,6 @@ public class ChargeOrb : ProjectileBase
     {
         if (_launched && !_charging)
         {
-            Debug.Log("Shoot Orb");
             LaunchFeedback();
             _tc._timeCharged = 0f;
             _rb.velocity = transform.forward * _travelSpeed;

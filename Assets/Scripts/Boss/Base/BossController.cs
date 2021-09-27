@@ -28,22 +28,18 @@ public class BossController : MonoBehaviour
 
         if ((randomizeAttack <= 1.0f) && (randomizeAttack > 0.75f))
         {
-            //Debug.Log("Initialize Saw Blade");
             _bossWeaponController.SawBladeAttack();
         }
         else if ((randomizeAttack <= 0.75f) && (randomizeAttack > 0.5))
         {
-           //Debug.Log("Initialize Rocket Launcher");
             _bossWeaponController.Rocket();
         }
         else if ((randomizeAttack <= 0.5f) && (randomizeAttack > 0.25f))
         {
-            //Debug.Log("Initialize Teleport");
-            StartCoroutine(_bossMovement.Teleport());
+             StartCoroutine(_bossMovement.Teleport());
         }
         else if ((randomizeAttack <= 0.25f) && (randomizeAttack >= 0.0f))
         {
-            //Debug.Log("Initialize Falling Rocks");
             StartCoroutine(_bossWeaponController.RocksAttack());
 
         }
@@ -53,7 +49,8 @@ public class BossController : MonoBehaviour
     {
         if (Time.time - _lastEvent >= _eventDelay)
         {
-            EventRandomization();
+            //EventRandomization();
+            _bossWeaponController.Rocket();
             _lastEvent = Time.time;
         }
     }

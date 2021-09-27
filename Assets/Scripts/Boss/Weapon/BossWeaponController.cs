@@ -16,22 +16,36 @@ public class BossWeaponController : MonoBehaviour
     [SerializeField] public Transform _rocketArmBarrel;
     [SerializeField] public Transform _launcher;
 
+    [Header("Enabled")]
+    [SerializeField] bool _isSawBlade = true;
+    [SerializeField] bool _isRocket = true;
+    [SerializeField] bool _isRock = true;
+
     public void SawBladeAttack()
     {
-        GameObject sawBlade = Instantiate(_sawBlade);
+        if (_isSawBlade)
+        {
+            GameObject sawBlade = Instantiate(_sawBlade);
+        }
     }
 
     public IEnumerator RocksAttack()
     {
-        for (int i = 0; i < Random.Range(2,10); i++)
+        if (_isRock)
         {
-            GameObject rock = Instantiate(_rock);
-            yield return new WaitForSeconds(0.2f);
+            for (int i = 0; i < Random.Range(2, 10); i++)
+            {
+                GameObject rock = Instantiate(_rock);
+                yield return new WaitForSeconds(0.2f);
+            }
         }
     }
 
     public void Rocket()
     {
-        GameObject rocket = Instantiate(_rocket);
+        if (_isRocket)
+        {
+            GameObject rocket = Instantiate(_rocket);
+        }
     }
 }
