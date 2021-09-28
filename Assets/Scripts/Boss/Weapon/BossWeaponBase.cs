@@ -30,6 +30,7 @@ public abstract class BossWeaponBase : MonoBehaviour
 
     private void Start()
     {
+        RotateEvent();
         Attack(gameObject);
         LaunchEffect();
 
@@ -49,10 +50,6 @@ public abstract class BossWeaponBase : MonoBehaviour
             ImpactEffect();
             damageable.TakeDamage(_damage);
         }
-        else
-        {
-            ImpactEffect();
-        }
     }
 
     protected virtual void LaunchEffect()
@@ -68,7 +65,7 @@ public abstract class BossWeaponBase : MonoBehaviour
 
     protected virtual void ImpactEffect()
     {
-        MeshRenderer mesh = GetComponent<MeshRenderer>();
+        MeshRenderer mesh = GetComponentInChildren<MeshRenderer>();
         Collider col = GetComponent<Collider>();
 
         if (mesh != null && col != null)

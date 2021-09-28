@@ -1,27 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class BossMovement : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField] float _movementSpeed = 5.0f;
     [SerializeField] float _turnSpeed = 3.0f;
 
-    [Header("Components")]
-    [SerializeField] GameObject _bossArt;
-
     [Header("Outside Information")]
     [SerializeField] Transform _player;
-    [SerializeField] Vector3 _playableAreaMin;
-    [SerializeField] Vector3 _playableAreaMax;
+    public Transform Player => _player;
 
     Rigidbody _rb;
+    BossTeleport _bossTeleport;
 
-    Vector3 _movingPosition;
-
-    Vector3 teleportStartingLocation;
-    Vector3 teleportLandingLocation;
+    public Vector3 _movingPosition;
 
     float _offset = 20f;
     float _tolerance = 5f;
@@ -29,12 +22,15 @@ public class BossMovement : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _movingPosition = transform.position;
+        _bossTeleport = GetComponent<BossTeleport>();
     }
 
     private void FixedUpdate()
     {
-        FollowPlayer();
+        if (!_bossTeleport.IsTeleporting)
+        {
+            FollowPlayer();
+        }
     }
 
     private void FollowPlayer()
@@ -68,21 +64,5 @@ public class BossMovement : MonoBehaviour
         }
 
         transform.position = new Vector3(_movingPosition.x, transform.position.y, _movingPosition.z);
-    }
-
-    
-    public IEnumerator Teleport()
-    {
-        teleportStartingLocation = transform.position;
-
-        teleportLandingLocation = new Vector3(Random.Range(_playableAreaMin.x, _playableAreaMax.x),
-            Random.Range(_playableAreaMin.y, _playableAreaMax.y), Random.Range(_playableAreaMin.z, _playableAreaMax.z));
-        _bossArt.SetActive(false);
-
-        yield return new WaitForSeconds(1f);
-
-        transform.position = teleportLandingLocation;
-        _movingPosition = transform.position;
-        _bossArt.SetActive(true);
     }
 }

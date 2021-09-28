@@ -44,6 +44,13 @@ public class ChargeOrb : ProjectileBase
                 _charging = true;
                 _rb.velocity = Vector3.zero;
 
+                var matrix = transform.localToWorldMatrix;
+                var position = new Vector3(matrix[0, 3], matrix[1, 3], matrix[2, 3]);
+
+                Vector3 positionOffset = _tc.transform.position - position;
+
+                transform.position += positionOffset;
+
                 orb.transform.localScale = Vector3.one * ChargeTime();
                 _orbSize = orb.transform.localScale.x;
 
@@ -74,7 +81,7 @@ public class ChargeOrb : ProjectileBase
         {
             LaunchFeedback();
             _tc._timeCharged = 0f;
-            _rb.velocity = transform.forward * _travelSpeed;
+            _rb.velocity = _tc.transform.forward * _travelSpeed;
             ChargeBar.enabled = false;
             //StartCoroutine(WaitForDestroy());
         }

@@ -884,7 +884,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7252616387175439536}
-  - component: {fileID: 7252616387175439567}
   - component: {fileID: 7252616387175439565}
   - component: {fileID: 6430197745363199678}
   m_Layer: 0
@@ -901,27 +900,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7252616387175439537}
-  m_LocalRotation: {x: 0.051667895, y: 0.9483094, z: -0.22474924, w: 0.21800809}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -5, y: 6.75, z: 5.299976}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7252616386849968504}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7252616387175439567
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7252616387175439537}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.15, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!54 &7252616387175439565
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -930,10 +916,10 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7252616387175439537}
   serializedVersion: 2
-  m_Mass: 0.0000001
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 0
@@ -950,15 +936,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c94ac84fb41c5df4a90bcb28ae48f574, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 15
-  _launchSpeed: 12
+  _damage: 5
+  _launchSpeed: 15
   _rotationStep: 15
   _launchEffect: {fileID: 6072728186875048445, guid: 403c4b396901b114a858f1a283ea5196,
     type: 3}
   _impactEffect: {fileID: 6072728186875048445, guid: 403c4b396901b114a858f1a283ea5196,
     type: 3}
   _launchAudio: {fileID: 8300000, guid: 76983b751eab17c4ab02ab3c565a8452, type: 3}
-  _impactAudio: {fileID: 8300000, guid: fe34db32caec9c740b2451f55f8584bf, type: 3}
+  _impactAudio: {fileID: 8300000, guid: 85f666eec5fa9164ab697e38b5724a9c, type: 3}
 --- !u!1 &7252616387273250743
 GameObject:
   m_ObjectHideFlags: 0
@@ -2653,6 +2639,7 @@ GameObject:
   - component: {fileID: 7252616388294945370}
   - component: {fileID: 7252616388294945371}
   - component: {fileID: 7252616388294945372}
+  - component: {fileID: 8907762776392215808}
   m_Layer: 0
   m_Name: Blade
   m_TagString: Untagged
@@ -3482,3 +3469,17 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!64 &8907762776392215808
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7252616388294945374}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}

@@ -6,14 +6,14 @@ public class BossController : MonoBehaviour
 {
     [SerializeField] float _eventDelay = 2f;
 
-    BossMovement _bossMovement;
+    BossTeleport _bossTeleport;
     BossWeaponController _bossWeaponController;
 
     public float _lastEvent;
 
     private void Awake()
     {
-        _bossMovement = GetComponent<BossMovement>();
+        _bossTeleport = GetComponent<BossTeleport>();
         _bossWeaponController = GetComponent<BossWeaponController>();
     }
 
@@ -34,9 +34,9 @@ public class BossController : MonoBehaviour
         {
             _bossWeaponController.Rocket();
         }
-        else if ((randomizeAttack <= 0.5f) && (randomizeAttack > 0.25f))
+        else if ((randomizeAttack <= 0.5f) && (randomizeAttack > 0.25f) && !_bossTeleport.IsTeleporting)
         {
-             StartCoroutine(_bossMovement.Teleport());
+             //StartCoroutine(_bossTeleport.Teleport());
         }
         else if ((randomizeAttack <= 0.25f) && (randomizeAttack >= 0.0f))
         {
@@ -50,7 +50,7 @@ public class BossController : MonoBehaviour
         if (Time.time - _lastEvent >= _eventDelay)
         {
             //EventRandomization();
-            _bossWeaponController.Rocket();
+            _bossWeaponController.SawBladeAttack();
             _lastEvent = Time.time;
         }
     }
