@@ -14,17 +14,21 @@ public abstract class BossWeaponBase : MonoBehaviour
     [SerializeField] protected float _rotationStep;
 
     [Header("Effects")]
-    [SerializeField] protected ParticleSystem _launchEffect;
-    [SerializeField] protected ParticleSystem _impactEffect;
-    [SerializeField] protected AudioClip _launchAudio;
-    [SerializeField] protected AudioClip _impactAudio;
+    [SerializeField] protected ParticleSystem _launchEffect = null;
+    [SerializeField] protected ParticleSystem _impactEffect = null;
+    [SerializeField] protected AudioClip _launchAudio = null;
+    [SerializeField] protected AudioClip _impactAudio = null;
 
     protected BossWeaponController _bc;
+    protected BossController _bossController;
     protected Rigidbody _rb;
+
+    Vector3 _launchLocation;
 
     private void Awake()
     {
         _bc = FindObjectOfType<BossWeaponController>();
+        _bossController = FindObjectOfType<BossController>();
         _rb = GetComponent<Rigidbody>();
     }
 
@@ -49,12 +53,13 @@ public abstract class BossWeaponBase : MonoBehaviour
             ImpactEffect();
             damageable.TakeDamage(_damage);
         }
+        ImpactEffect();
     }
 
     protected virtual void LaunchEffect()
     {
-        ParticleSystem launchEffect = Instantiate(_launchEffect);
-        launchEffect.gameObject.transform.position = gameObject.transform.position;
+        ParticleSystem launchEffect = Instantiate(_launchEffect, transform.position, Quaternion.identity);
+        //launchEffect.gameObject.transform.position = _launchLocation;
         Destroy(launchEffect.gameObject, 0.5f);
 
         AudioSource launchAudio = AudioHelper.PlayClip2D(_launchAudio, "Launch Sound: " + gameObject.name, 0.01f, _launchAudio.length);
@@ -66,7 +71,6 @@ public abstract class BossWeaponBase : MonoBehaviour
     {
         MeshRenderer mesh = GetComponentInChildren<MeshRenderer>();
         Collider col = GetComponent<Collider>();
-
         if (mesh != null && col != null)
         {
             mesh.enabled = false;
@@ -76,9 +80,9 @@ public abstract class BossWeaponBase : MonoBehaviour
 
         if (_impactEffect != null)
         {
-            ParticleSystem impactEffect = Instantiate(_impactEffect);
-            impactEffect.gameObject.transform.position = gameObject.transform.position;
-            Destroy(impactEffect.gameObject, 0.5f);
+            ParticleSystem impactEffect = Instantiate(_impactEffect, gameObject.transform.position, Quaternion.identity);
+            //impactEffect.gameObject.transform.position = gameObject.transform.position;
+            Destroy(impactEffect.gameObject, 5f);
 
             AudioSource impactAudio = AudioHelper.PlayClip2D(_impactAudio, "Impact Sound: " + gameObject.name, 0.01f, _impactAudio.length);
             Destroy(impactAudio.gameObject, 2f);

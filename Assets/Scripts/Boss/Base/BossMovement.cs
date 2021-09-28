@@ -8,7 +8,7 @@ public class BossMovement : MonoBehaviour
     [SerializeField] float _turnSpeed = 3.0f;
 
     [Header("Outside Information")]
-    [SerializeField] Transform _player;
+    [SerializeField] Transform _player = null;
     public Transform Player => _player;
 
     Rigidbody _rb;
@@ -35,20 +35,32 @@ public class BossMovement : MonoBehaviour
 
     private void FollowPlayer()
     {
-        transform.LookAt(_player.transform);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, _player.rotation, _turnSpeed * Time.deltaTime);
+        transform.LookAt(_player.transform);   
         _rb.freezeRotation = true;
 
-        if (Vector3.Distance(transform.position, _player.position) > _offset + _tolerance)
+        if (Vector3.Distance(_rb.position, _player.position) > _offset + _tolerance)
         {
             MoveBoss(true);
         }
-        else if (Vector3.Distance(transform.position, _player.position) < _offset - _tolerance)
+        else if (Vector3.Distance(_rb.position, _player.position) < _offset - _tolerance)
         {
-            MoveBoss(false);
+            if (Vector3.Distance(_rb.position, _player.position) < 8f)
+            {
+                if (!_bossTeleport.IsTeleporting)
+                {
+                    print("do it");
+                    StartCoroutine(_bossTeleport.Teleport());
+                }
+            }
+            else
+            {
+                MoveBoss(false);
+            }
         }
         else
         {
-            transform.position = transform.position;
+            _rb.position = _rb.position;
         }
     }
 
@@ -63,6 +75,6 @@ public class BossMovement : MonoBehaviour
             _movingPosition -= transform.forward * _movementSpeed * Time.deltaTime;
         }
 
-        transform.position = new Vector3(_movingPosition.x, transform.position.y, _movingPosition.z);
+        _rb.position = new Vector3(_movingPosition.x, _rb.position.y, _movingPosition.z);
     }
 }

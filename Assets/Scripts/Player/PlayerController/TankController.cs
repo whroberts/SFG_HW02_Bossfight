@@ -16,15 +16,20 @@ public class TankController : MonoBehaviour
 
     Rigidbody _rb = null;
 
+    Vector3 _startPosition;
+    float _flipLimit = 0.7f;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _startPosition = _rb.position;
     }
 
     private void FixedUpdate()
     {
         MoveTank();
         TurnTank();
+        ResetPositionCheck();
     }
 
     public void MoveTank()
@@ -46,5 +51,18 @@ public class TankController : MonoBehaviour
         Quaternion turnOffset = Quaternion.Euler(0, turnAmountThisFrame, 0);
         // apply quaternion to the rigidbody
         _rb.MoveRotation(_rb.rotation * turnOffset);
+    }
+
+    private void ResetPositionCheck()
+    {
+        //Debug.Log("X: " + _rb.rotation.x);
+        //Debug.Log("Z: " + _rb.rotation.z);
+
+        if (-_flipLimit > _rb.rotation.x || _rb.rotation.x > _flipLimit || -_flipLimit > _rb.rotation.z || _rb.rotation.z > _flipLimit)
+        {
+            Debug.Log("hello");
+            //_rb.position = _startPosition;
+            _rb.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
     }
 }

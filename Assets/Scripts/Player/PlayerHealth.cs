@@ -11,7 +11,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 //    public event Action<int> Healed = delegate { };
     public event Action Killed = delegate { };
 
-    [SerializeField] ParticleSystem _deathEffect;
+    [SerializeField] ParticleSystem _deathEffect = null;
     [SerializeField] float _startingHealth = 100;
     public float StartingHealth => _startingHealth;
 

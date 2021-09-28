@@ -10,6 +10,7 @@ public class BossController : MonoBehaviour
     BossWeaponController _bossWeaponController;
 
     public float _lastEvent;
+    public bool _attacking = false;
 
     private void Awake()
     {
@@ -41,7 +42,6 @@ public class BossController : MonoBehaviour
         else if ((randomizeAttack <= 0.25f) && (randomizeAttack >= 0.0f))
         {
             StartCoroutine(_bossWeaponController.RocksAttack());
-
         }
     }
 
@@ -50,7 +50,11 @@ public class BossController : MonoBehaviour
         if (Time.time - _lastEvent >= _eventDelay)
         {
             //EventRandomization();
-            _bossWeaponController.SawBladeAttack();
+            if (!_attacking)
+            {
+                StartCoroutine(_bossWeaponController.RocksAttack());
+                _attacking = true;
+            }
             _lastEvent = Time.time;
         }
     }

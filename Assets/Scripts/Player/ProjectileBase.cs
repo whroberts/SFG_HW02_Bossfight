@@ -14,7 +14,7 @@ public abstract class ProjectileBase : MonoBehaviour
     [SerializeField] ParticleSystem _launchEffect = null;
     [SerializeField] ParticleSystem _onHitEffect = null;
     [SerializeField] AudioClip _launchSound = null;
-    [SerializeField] AudioClip _onHitSound;
+    [SerializeField] AudioClip _onHitSound = null;
 
     protected TurretController _tc;
     private ChargeAttackBar _chargeBar;

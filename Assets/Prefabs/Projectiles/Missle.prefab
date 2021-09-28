@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageValue: 5
-  _travelSpeed: 10
+  _travelSpeed: 20
   _launchEffect: {fileID: 1391148659358212689, guid: 3010cf8d40621854c9677b76cec757bd,
     type: 3}
   _onHitEffect: {fileID: 45476131752839489, guid: 3282cc33e2de02541bf4fe28a0ca6e67,
