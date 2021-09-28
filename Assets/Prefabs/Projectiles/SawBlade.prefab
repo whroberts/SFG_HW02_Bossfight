@@ -937,7 +937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 5
-  _launchSpeed: 15
+  _launchSpeed: 20
   _rotationStep: 15
   _launchEffect: {fileID: 6072728186875048445, guid: 403c4b396901b114a858f1a283ea5196,
     type: 3}

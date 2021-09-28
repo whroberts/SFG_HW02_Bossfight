@@ -14,10 +14,10 @@ public abstract class BossWeaponBase : MonoBehaviour
     [SerializeField] protected float _rotationStep;
 
     [Header("Effects")]
-    [SerializeField] ParticleSystem _launchEffect;
-    [SerializeField] ParticleSystem _impactEffect;
-    [SerializeField] AudioClip _launchAudio;
-    [SerializeField] AudioClip _impactAudio;
+    [SerializeField] protected ParticleSystem _launchEffect;
+    [SerializeField] protected ParticleSystem _impactEffect;
+    [SerializeField] protected AudioClip _launchAudio;
+    [SerializeField] protected AudioClip _impactAudio;
 
     protected BossWeaponController _bc;
     protected Rigidbody _rb;
@@ -44,7 +44,6 @@ public abstract class BossWeaponBase : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
-
         if (damageable != null)
         {
             ImpactEffect();
