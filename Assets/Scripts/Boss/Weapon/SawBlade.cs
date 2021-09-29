@@ -75,7 +75,7 @@ public class SawBlade : BossWeaponBase
     {
         if (_impactEffect != null)
         {
-            Destroy(impactAudio.gameObject, 2f);
+            Destroy(impactAudio.gameObject);
         }
     }
 
@@ -83,13 +83,16 @@ public class SawBlade : BossWeaponBase
     {
         if (_rb.velocity.magnitude <= new Vector3(0.1f, 0.1f, 0.1f).magnitude)
         {
+            print("huh 1");
             if (impactAudio != null)
             {
+                print("huh 2");
                 Destroy(impactAudio.gameObject);
             }
 
             if (impactEffect != null)
             {
+                print("huh 3");
                 Destroy(impactEffect.gameObject);
             }
             Destroy(gameObject);
@@ -98,6 +101,10 @@ public class SawBlade : BossWeaponBase
 
     private void OnDestroy()
     {
-        _bossController._attacking = false;
+        if (_bc.NewSawBlades[_bc.NewSawBlades.Length - 1] == this.gameObject)
+        {
+            _bossController._attacking = false;
+            _bossController._lastEvent = Time.time;
+        }
     }
 }

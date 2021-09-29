@@ -57,7 +57,7 @@ public class BossController : MonoBehaviour
             {
                 EventRandomization();
                 _attacking = true;
-                _lastEvent = Time.time;
+                //_lastEvent = Time.time;
             }
         }
     }

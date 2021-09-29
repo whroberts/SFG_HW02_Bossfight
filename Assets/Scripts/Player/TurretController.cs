@@ -21,8 +21,8 @@ public class TurretController : MonoBehaviour
 
     ProjectileBase _pb;
 
-    public GameObject newProjectile;
-    public GameObject newOrb;
+    [HideInInspector] public GameObject newProjectile;
+    [HideInInspector] public GameObject newOrb;
 
     private bool _charging = false;
     public bool Charging => _charging;
@@ -30,10 +30,10 @@ public class TurretController : MonoBehaviour
     private float _beginCharge = 0f;
     public float BeginCharged => _beginCharge;
 
-    public float _timeCharged = 0f;
+    [HideInInspector] public float _timeCharged = 0f;
+    [SerializeField] float _missileFireRate = 0f;
 
     float _lastFired = 0f;
-    float _fireRate = 0f;
     
     float _lastShot;
     private void Awake()
@@ -44,7 +44,7 @@ public class TurretController : MonoBehaviour
 
     private void Update()
     {
-        if (Time.time - _lastFired >= _fireRate)
+        if (Time.time - _lastFired >= _missileFireRate)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {

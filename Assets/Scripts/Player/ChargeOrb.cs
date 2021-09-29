@@ -144,7 +144,6 @@ public class ChargeOrb : ProjectileBase
 
         for (int i = 0; i < bossElectrified.main.duration; i++)
         {
-            print(i);
             rb.rotation = Quaternion.Euler(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(177f, 183f), UnityEngine.Random.Range(-3f, 3f));
             damageable.TakeDamage(_electricDamage * _orbSize);
 

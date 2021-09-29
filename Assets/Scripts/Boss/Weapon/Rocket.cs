@@ -31,5 +31,6 @@ public class Rocket : BossWeaponBase
     {
         _launched = false;
         _bossController._attacking = false;
+        _bossController._lastEvent = Time.time;
     }
 }

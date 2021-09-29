@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class AudioHelper
 {
-    public static AudioSource PlayClip2D(AudioClip clip, string name, float volume, float time)
+    public static AudioSource PlayClip2D(AudioClip clip, string name, float volume, float time, float startTime = 0f)
     {
         //create
         GameObject audioObject = new GameObject("Audio2D: " + name);
@@ -16,6 +16,7 @@ public static class AudioHelper
 
         //activate
         audioSource.Play();
+        audioSource.time = startTime;
         Object.Destroy(audioObject, time);
 
         //return in case other things need it

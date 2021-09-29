@@ -8,6 +8,7 @@ using System;
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
     public event Action<float> Damaged = delegate { };
+    public event Action Camera = delegate { };
 //    public event Action<int> Healed = delegate { };
     public event Action Killed = delegate { };
 
@@ -41,17 +42,30 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         _currentHealth -= amount;
         Damaged?.Invoke(amount);
+        Camera?.Invoke();
 
         if (_currentHealth <= 0)
         {
-            Kill();
             Killed?.Invoke();
+            Kill();
         }
     }
 
     private void Kill()
     {
         Instantiate(_deathEffect, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+
+        MeshRenderer[] meshes = GetComponentsInChildren<MeshRenderer>();
+        Rigidbody rb = GetComponent<Rigidbody>();
+        TurretController tc = GetComponentInChildren<TurretController>();
+
+        rb.velocity = Vector3.zero;
+        rb.freezeRotation = true;
+        tc.enabled = false;
+
+        for (int i = 0; i < meshes.Length; i++)
+        {
+            meshes[i].enabled = false;
+        }
     }
 }

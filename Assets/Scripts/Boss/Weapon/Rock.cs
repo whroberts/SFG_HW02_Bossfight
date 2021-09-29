@@ -49,6 +49,7 @@ public class Rock : BossWeaponBase
         if (_bc.NewRocksObject[_bc.NewRocksObject.Length-1] == this.gameObject)
         {
             _bossController._attacking = false;
+            _bossController._lastEvent = Time.time;
         }
     }
 

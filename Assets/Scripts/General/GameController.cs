@@ -8,8 +8,27 @@ using System;
 
 public class GameController : MonoBehaviour
 {
+    [SerializeField] GameObject _deathScreen = null;
+
+    PlayerHealth _playerHealth;
+
     // subject that will notify observers
     public event Action PauseGame = delegate { };
+
+    private void Awake()
+    {
+        _playerHealth = FindObjectOfType<PlayerHealth>();
+    }
+
+    private void OnEnable()
+    {
+        _playerHealth.Killed += OnKilled;
+    }
+
+    private void OnDisable()
+    {
+        _playerHealth.Killed -= OnKilled;
+    }
 
     void Update()
     {
@@ -21,6 +40,15 @@ public class GameController : MonoBehaviour
         {
             Application.Quit();
         }
+    }
+
+    void OnKilled()
+    {
+        if (_deathScreen != null) 
+        { 
+
+        }
+
     }
 
     /*

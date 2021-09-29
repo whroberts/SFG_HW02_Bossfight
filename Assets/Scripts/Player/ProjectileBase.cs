@@ -93,7 +93,7 @@ public abstract class ProjectileBase : MonoBehaviour
 
         if (_launchEffect != null)
         {
-            ParticleSystem launchParticleEffect = Instantiate(_launchEffect, transform.position, Quaternion.identity);
+            ParticleSystem launchParticleEffect = Instantiate(_launchEffect, _tc.transform, false);
             launchParticleEffect.Play();
             Destroy(launchParticleEffect.gameObject, launchParticleEffect.main.duration);
         }
@@ -103,6 +103,7 @@ public abstract class ProjectileBase : MonoBehaviour
     protected void ImpactFeedback()
     {
         // declares an audio source array and finds all of the current audio sources in the game
+        /*
         AudioSource[] sceneSources = FindObjectsOfType<AudioSource>();
 
         for (int i = sceneSources.Length-1; i >= 0; i--)
@@ -110,6 +111,7 @@ public abstract class ProjectileBase : MonoBehaviour
             //destoys all current audio sources
             Destroy(sceneSources[i].gameObject);
         }
+        */
 
         if (_onHitSound != null)
         {
