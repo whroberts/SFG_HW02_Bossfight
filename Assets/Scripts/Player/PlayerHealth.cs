@@ -9,7 +9,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 {
     public event Action<float> Damaged = delegate { };
     public event Action Camera = delegate { };
-//    public event Action<int> Healed = delegate { };
     public event Action Killed = delegate { };
 
     [SerializeField] ParticleSystem _deathEffect = null;

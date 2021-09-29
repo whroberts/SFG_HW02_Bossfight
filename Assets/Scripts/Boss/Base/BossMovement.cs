@@ -39,7 +39,15 @@ public class BossMovement : MonoBehaviour
         {
             transform.rotation = Quaternion.RotateTowards(transform.rotation, _player.rotation, _turnSpeed * Time.deltaTime);
             transform.LookAt(_player.transform);
-            _rb.freezeRotation = true;
+
+            if (gameObject.CompareTag("E"))
+            {
+                _rb.freezeRotation = false;
+            }
+            else
+            {
+                _rb.freezeRotation = true;
+            }
 
             if (Vector3.Distance(_rb.position, _player.position) > _offset + _tolerance)
             {

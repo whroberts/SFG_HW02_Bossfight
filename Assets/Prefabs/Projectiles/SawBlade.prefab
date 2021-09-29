@@ -944,8 +944,7 @@ MonoBehaviour:
   _impactEffect: {fileID: 6072728186875048445, guid: 403c4b396901b114a858f1a283ea5196,
     type: 3}
   _launchAudio: {fileID: 8300000, guid: 76983b751eab17c4ab02ab3c565a8452, type: 3}
-  _impactAudio: {fileID: 8300000, guid: 85f666eec5fa9164ab697e38b5724a9c, type: 3}
-  _chargeSound: {fileID: 8300000, guid: 3b80199a9a14c5b41b41a83d8fa580ac, type: 3}
+  _impactAudio: {fileID: 8300000, guid: b006f23feef881541b82f36023db02ca, type: 3}
 --- !u!1 &7252616387273250743
 GameObject:
   m_ObjectHideFlags: 0

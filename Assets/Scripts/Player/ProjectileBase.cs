@@ -20,6 +20,11 @@ public abstract class ProjectileBase : MonoBehaviour
     private ChargeAttackBar _chargeBar;
     public ChargeAttackBar ChargeBar => _chargeBar;
 
+    protected float _launchVolume = 0.05f;
+    protected float _impactVolume = 0.05f;
+    public float LaunchVolume => _launchVolume;
+    public float ImpactVolume => _impactVolume;
+
     private void Awake()
     {
         _tc = FindObjectOfType<TurretController>();
@@ -67,6 +72,8 @@ public abstract class ProjectileBase : MonoBehaviour
         {
             IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
             ChargeOrb chargeOrb = gameObject.GetComponent<ChargeOrb>();
+            Walls _walls = other.gameObject.GetComponent<Walls>();
+
             if (damageable != null)
             {
                 /*
@@ -79,6 +86,11 @@ public abstract class ProjectileBase : MonoBehaviour
                 {
                     StartCoroutine(chargeOrb.ApplyElectric(other.gameObject));
                 }
+            }
+            
+            if (_walls != null)
+            {
+                ImpactFeedback();
             }
         }
     }

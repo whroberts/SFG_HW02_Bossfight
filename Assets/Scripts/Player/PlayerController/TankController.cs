@@ -59,8 +59,6 @@ public class TankController : MonoBehaviour
 
         if (-_flipLimit > _rb.rotation.x || _rb.rotation.x > _flipLimit || -_flipLimit > _rb.rotation.z || _rb.rotation.z > _flipLimit)
         {
-            Debug.Log("X: " + _rb.rotation.x);
-            Debug.Log("Z: " + _rb.rotation.z);
             _rb.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
     }

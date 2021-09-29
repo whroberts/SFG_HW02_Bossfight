@@ -11,6 +11,8 @@ public class Rocket : BossWeaponBase
         if (!_launched)
         {
             ShootRocket(rocket);
+            _launchVolume = 0.005f;
+            _impactVolume = 0.003f;
         }
     }
 

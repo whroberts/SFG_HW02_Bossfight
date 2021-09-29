@@ -29,15 +29,18 @@ public class CameraController : MonoBehaviour
 
     public IEnumerator CameraShake()
     {
-        _length = Mathf.Pow(_playerHealthUI.EffectsStep, -1) * _playerHealthUI.EffectsLength;
-        for (int i = 0; i < _length/2; i++)
+        if (_playerHealthUI != null)
         {
-            transform.rotation *= Quaternion.Euler(Random.Range(-0.15f, 0.15f), Random.Range(-0.15f, 0.15f), Random.Range(-0.15f, 0.15f));
-            yield return new WaitForSeconds(_playerHealthUI.EffectsStep);
+            _length = Mathf.Pow(_playerHealthUI.EffectsStep, -1) * _playerHealthUI.EffectsLength;
+            for (int i = 0; i < _length / 2; i++)
+            {
+                transform.rotation *= Quaternion.Euler(Random.Range(-0.15f, 0.15f), Random.Range(-0.15f, 0.15f), Random.Range(-0.15f, 0.15f));
+                yield return new WaitForSeconds(_playerHealthUI.EffectsStep);
+            }
+            Mathf.LerpAngle(transform.localRotation.x, _cameraStartingRotation.x, _playerHealthUI.EffectsStep * 2f * Time.deltaTime);
+            Mathf.LerpAngle(transform.localRotation.y, _cameraStartingRotation.y, _playerHealthUI.EffectsStep * 2f * Time.deltaTime);
+            Mathf.LerpAngle(transform.localRotation.z, _cameraStartingRotation.z, _playerHealthUI.EffectsStep * 2f * Time.deltaTime);
+            transform.localRotation = _cameraStartingRotation;
         }
-        Mathf.LerpAngle(transform.localRotation.x, _cameraStartingRotation.x, _playerHealthUI.EffectsStep * 2f * Time.deltaTime);
-        Mathf.LerpAngle(transform.localRotation.y, _cameraStartingRotation.y, _playerHealthUI.EffectsStep * 2f * Time.deltaTime);
-        Mathf.LerpAngle(transform.localRotation.z, _cameraStartingRotation.z, _playerHealthUI.EffectsStep * 2f * Time.deltaTime);
-        transform.localRotation = _cameraStartingRotation;
     }
 }

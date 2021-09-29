@@ -33,6 +33,8 @@ public class Rock : BossWeaponBase
             {
                 _impactAudio = _hitPlayerSound;
                 _impactEffect = _hitPlayerEffect;
+                _launchVolume = 0.05f;
+                _impactVolume = 0.05f;
                 ImpactEffect();
                 damageable.TakeDamage(_damage);
             }

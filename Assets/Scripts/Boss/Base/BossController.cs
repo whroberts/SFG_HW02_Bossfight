@@ -9,7 +9,7 @@ public class BossController : MonoBehaviour
     [HideInInspector] public BossTeleport _bossTeleport;
     BossWeaponController _bossWeaponController;
 
-    public float _lastEvent = 0;
+    public float _lastEvent = 2f;
     public bool _attacking = false;
 
     private void Awake()
@@ -55,8 +55,7 @@ public class BossController : MonoBehaviour
         {
             if (!_attacking)
             {
-                //EventRandomization();
-                StartCoroutine(_bossWeaponController.SawBladeAttack());
+                EventRandomization();
                 _attacking = true;
             }
         }

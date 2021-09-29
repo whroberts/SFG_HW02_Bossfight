@@ -18,6 +18,8 @@ public class SawBlade : BossWeaponBase
         {
             RegularAttack(sawBlade);
         }
+        _launchVolume = 0.01f;
+        _impactVolume = 0.05f;
 
     }
 

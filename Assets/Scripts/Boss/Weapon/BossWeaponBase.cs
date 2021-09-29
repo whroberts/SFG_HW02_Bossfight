@@ -23,6 +23,11 @@ public abstract class BossWeaponBase : MonoBehaviour
     protected BossController _bossController;
     protected Rigidbody _rb;
 
+    protected float _launchVolume = 0.05f;
+    protected float _impactVolume = 0.05f;
+    public float LaunchVolume => _launchVolume;
+    public float ImpactVolume => _impactVolume;
+
     Vector3 _launchLocation;
 
     private void Awake()
@@ -62,7 +67,7 @@ public abstract class BossWeaponBase : MonoBehaviour
         //launchEffect.gameObject.transform.position = _launchLocation;
         Destroy(launchEffect.gameObject, 0.5f);
 
-        AudioSource launchAudio = AudioHelper.PlayClip2D(_launchAudio, "Launch Sound: " + gameObject.name.ToString(), 0.04f, _launchAudio.length, 0f);
+        AudioSource launchAudio = AudioHelper.PlayClip2D(_launchAudio, "Launch Sound: " + gameObject.name.ToString(), _launchVolume, _launchAudio.length, 0f);
         launchAudio.gameObject.transform.position = gameObject.transform.position;
         Destroy(launchAudio.gameObject, _launchAudio.length);
     }
@@ -85,7 +90,7 @@ public abstract class BossWeaponBase : MonoBehaviour
             //impactEffect.gameObject.transform.position = gameObject.transform.position;
             Destroy(impactEffect.gameObject, 2f);
 
-            AudioSource impactAudio = AudioHelper.PlayClip2D(_impactAudio, "Impact Sound: " + gameObject.name.ToString(), 0.04f, _impactAudio.length, 0f);
+            AudioSource impactAudio = AudioHelper.PlayClip2D(_impactAudio, "Impact Sound: " + gameObject.name.ToString(), _impactVolume, _impactAudio.length, 0f);
             impactAudio.gameObject.transform.position = gameObject.transform.position;
             Destroy(impactAudio.gameObject, 2f);
             Destroy(gameObject, 2f);

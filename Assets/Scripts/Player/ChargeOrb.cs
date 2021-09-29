@@ -35,6 +35,9 @@ public class ChargeOrb : ProjectileBase
         newOrb = orb;
         _rb = orb.GetComponent<Rigidbody>();
         ChargeBar.enabled = true;
+
+        _launchVolume = 0.02f;
+        _impactVolume = 0.01f;
     }
 
     private void Update()
@@ -136,15 +139,22 @@ public class ChargeOrb : ProjectileBase
 
     public virtual IEnumerator ApplyElectric(GameObject boss)
     {
+        _rb.freezeRotation = false;
         Rigidbody rb = boss.GetComponent<Rigidbody>();
         ParticleSystem bossElectrified = Instantiate(_bossElectrified, boss.transform, false);
         IDamageable damageable = boss.GetComponent<IDamageable>();
+        BossMovement bm = rb.GetComponent<BossMovement>();
+        BossController bc = rb.GetComponent<BossController>();
+
+        bc.enabled = false;
+        bm.enabled = false;
+
+        rb.tag = "E";
 
         TempImpact();
 
         for (int i = 0; i < bossElectrified.main.duration; i++)
         {
-            rb.freezeRotation = false;
             rb.rotation = Quaternion.Euler(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(177f, 183f), UnityEngine.Random.Range(-3f, 3f));
             damageable.TakeDamage(_electricDamage * _orbSize);
 
@@ -158,8 +168,10 @@ public class ChargeOrb : ProjectileBase
             {
                 Destroy(bossElectrified.gameObject, 1f);
             }
-            _rb.freezeRotation = true;
         }
+        rb.tag = "Untagged";
+        bm.enabled = true;
+        bc.enabled = true;
     }
 
     void TempImpact()

@@ -10,6 +10,7 @@ public class PlayerHealthUI : MonoBehaviour
     [SerializeField] Slider _healthBar = null;
     [SerializeField] PlayerHealth _playerHealth = null;
     [SerializeField] TMP_Text _healthTextValue = null;
+    [SerializeField] TMP_Text _incrementalDamageValue = null;
 
     [Header("Damage Flash")]
     [SerializeField] Image _damageImage = null;
@@ -21,6 +22,9 @@ public class PlayerHealthUI : MonoBehaviour
 
     public float EffectsLength => _effectsLength;
     public float EffectsStep => _effectsStep;
+
+    float _tempDamage = 2;
+    float _storedDamage = 0;
 
     //PlayerHealth PlayerHealth { get; private set; }
     public PlayerHealth PlayerHealth => _playerHealth;
@@ -48,6 +52,8 @@ public class PlayerHealthUI : MonoBehaviour
     {
         _healthBar.value = PlayerHealth.CurrentHealth;
         _healthTextValue.text = Mathf.Round(PlayerHealth.CurrentHealth).ToString() + "/" + PlayerHealth.MaxHealth;
+        StopCoroutine(Decay());
+        ShowIncrement(damage);
         StartCoroutine(FlashDamageImage());
         StartCoroutine(_cameraController.CameraShake());
     }
@@ -67,5 +73,22 @@ public class PlayerHealthUI : MonoBehaviour
         }
         _damageImage.gameObject.SetActive(false);
         _damageImage.color = new Color(_damageImage.color.r, _damageImage.color.g, _damageImage.color.b, (104f / 255f));
+    }
+    private void ShowIncrement(float damage)
+    {
+        _storedDamage += _tempDamage;
+        _incrementalDamageValue.gameObject.SetActive(true);
+        _incrementalDamageValue.text = "- " + _storedDamage.ToString();
+        _tempDamage = damage;
+        StartCoroutine(Decay());
+    }
+    
+    private IEnumerator Decay()
+    {
+        yield return new WaitForSeconds(3f);
+        _incrementalDamageValue.text = "";
+        _incrementalDamageValue.gameObject.SetActive(false);
+        _storedDamage = 0;
+        _tempDamage = 2;
     }
 }
