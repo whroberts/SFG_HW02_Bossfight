@@ -62,10 +62,11 @@ public abstract class ProjectileBase : MonoBehaviour
         Player player = other.gameObject.GetComponent<Player>();
         PlayerDetection playerDetection = other.gameObject.GetComponent<PlayerDetection>();
 
+        BossHealth boss = other.gameObject.GetComponent<BossHealth>();
         if (playerDetection == null && player == null)
         {
             IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-
+            ChargeOrb chargeOrb = gameObject.GetComponent<ChargeOrb>();
             if (damageable != null)
             {
                 /*
@@ -74,7 +75,10 @@ public abstract class ProjectileBase : MonoBehaviour
                 // of the current scale of the charge orb
                 */
                 damageable.TakeDamage(_damageValue * gameObject.transform.localScale.x);
-                ImpactFeedback();
+                if (chargeOrb != null)
+                {
+                    StartCoroutine(chargeOrb.ApplyElectric(other.gameObject));
+                }
             }
         }
     }
@@ -83,12 +87,13 @@ public abstract class ProjectileBase : MonoBehaviour
     {
         if (_launchSound != null)
         {
-            AudioHelper.PlayClip2D(_launchSound, "Launch Feedback: " + _tc.newProjectile.name, .01f, _launchSound.length);
+            AudioSource launchSound = AudioHelper.PlayClip2D(_launchSound, "Launch Feedback: " + gameObject.name.ToString(), .04f, _launchSound.length);
+            launchSound.gameObject.transform.position = gameObject.transform.localPosition;
         }
 
         if (_launchEffect != null)
         {
-            ParticleSystem launchParticleEffect = Instantiate(_launchEffect, _tc.transform, false);
+            ParticleSystem launchParticleEffect = Instantiate(_launchEffect, transform.position, Quaternion.identity);
             launchParticleEffect.Play();
             Destroy(launchParticleEffect.gameObject, launchParticleEffect.main.duration);
         }
@@ -110,7 +115,8 @@ public abstract class ProjectileBase : MonoBehaviour
         {
             //calls the audio helper and launces an audio source object
             //adds a name to the object
-            AudioHelper.PlayClip2D(_onHitSound, "Impact Sound: " + _tc.newProjectile.name, .01f, _onHitSound.length);
+            AudioSource onHitSound = AudioHelper.PlayClip2D(_onHitSound, "Impact Sound: " + gameObject.name.ToString(), .04f, _onHitSound.length);
+            onHitSound.gameObject.transform.position = gameObject.transform.position;
         }
 
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -123,12 +129,15 @@ public abstract class ProjectileBase : MonoBehaviour
 
         if (_onHitEffect != null)
         {
-            ParticleSystem impactSystem = Instantiate(_onHitEffect, _tc.newProjectile.transform, false);
+            ParticleSystem impactSystem = Instantiate(_onHitEffect, transform.position, Quaternion.identity);
             impactSystem.Play();
+            Destroy(impactSystem.gameObject, 2f);
         }
-
-        mesh.enabled = false;
-        col.enabled = false;
+        if (mesh != null && col != null)
+        {
+            mesh.enabled = false;
+            col.enabled = false;
+        }
 
         Destroy(gameObject, 3f);
     }

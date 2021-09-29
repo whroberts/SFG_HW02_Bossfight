@@ -17,8 +17,8 @@ public class PlayerDetection : MonoBehaviour
 
         if (player != null)
         {
-            _bc.EventRandomization();
-            _bc._lastEvent = Time.time;
+            //_bc.EventRandomization();
+            //_bc._lastEvent = Time.time;
         }
     }
 }

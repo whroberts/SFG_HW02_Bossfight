@@ -13,10 +13,10 @@ TagManager:
   - UI
   - 
   - 
-  - Rock
-  - 
-  - 
-  - 
+  - Boss
+  - BossWeapon
+  - PlayerWeapon
+  - Player
   - 
   - 
   - 

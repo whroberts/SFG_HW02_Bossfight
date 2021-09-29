@@ -10,11 +10,18 @@ public class ChargeOrb : ProjectileBase
 
     [Header("Orb Stats")]
     [SerializeField] float _minimumChargeTime = 1.0f;
+    [SerializeField] float _electricDamage = 1f;
+
+    [Header("Individual Data")]
+    [SerializeField] AudioClip _orbFailedChargeAudio = null;
+    [SerializeField] ParticleSystem _orbFailedChargeEffect = null;
+    [SerializeField] ParticleSystem _bossElectrified = null;
 
     float _startTime = 0;
     float chargeTime = 0;
     bool _charging = false;
     bool _launched = false;
+    bool _failed = false;
 
     GameObject newOrb;
     Rigidbody _rb;
@@ -66,8 +73,13 @@ public class ChargeOrb : ProjectileBase
                 }
                 else if (_tc._timeCharged < _minimumChargeTime)
                 {
-                    Destroy(gameObject);
+                    _failed = true;
                     ChargeBar.enabled = false;
+                }
+                if (_failed)
+                {
+                    _launched = true;
+                    OnFailedCharge();
                 }
             }
         }
@@ -102,8 +114,70 @@ public class ChargeOrb : ProjectileBase
         Destroy(gameObject, 8f);
     }
 
+    private void OnFailedCharge()
+    {
+        MeshRenderer mesh = GetComponentInChildren<MeshRenderer>();
+        Collider col = GetComponent<Collider>();
+        ParticleSystem lighting = GetComponentInChildren<ParticleSystem>();
+
+        if (mesh != null && col != null)
+        {
+            mesh.enabled = false;
+            col.enabled = false;
+            lighting.Stop();
+        }
+
+        AudioSource failedChargeAudio = AudioHelper.PlayClip2D(_orbFailedChargeAudio, "Failed Charge Audio: " + gameObject.name.ToString(), 0.1f, _orbFailedChargeAudio.length);
+        failedChargeAudio.gameObject.transform.position = gameObject.transform.position;
+        ParticleSystem failedChargeEffect = Instantiate(_orbFailedChargeEffect, transform.position, Quaternion.identity);
+        Destroy(failedChargeEffect.gameObject, 1f);
+        Destroy(gameObject, 2f);
+    }
+
+    public virtual IEnumerator ApplyElectric(GameObject boss)
+    {
+        Rigidbody rb = boss.GetComponent<Rigidbody>();
+        ParticleSystem bossElectrified = Instantiate(_bossElectrified, boss.transform, false);
+        IDamageable damageable = boss.GetComponent<IDamageable>();
+
+        TempImpact();
+
+        for (int i = 0; i < bossElectrified.main.duration; i++)
+        {
+            print(i);
+            rb.rotation = Quaternion.Euler(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(177f, 183f), UnityEngine.Random.Range(-3f, 3f));
+            damageable.TakeDamage(_electricDamage);
+
+            yield return new WaitForSeconds(1f);
+
+            if (i == bossElectrified.main.duration - 2)
+            {
+                ImpactFeedback();
+            }
+            else if (i == bossElectrified.main.duration - 1)
+            {
+                Destroy(bossElectrified.gameObject, 1f);
+            }
+        }
+    }
+
+    void TempImpact()
+    {
+        MeshRenderer mesh = GetComponentInChildren<MeshRenderer>();
+        Collider col = GetComponent<Collider>();
+        Rigidbody rb = GetComponent<Rigidbody>();
+
+        if (mesh != null && col != null)
+        {
+            mesh.enabled = false;
+            col.enabled = false;
+            rb.velocity = Vector3.zero;
+        }
+    }
+
     private void OnDestroy()
     {
+        _failed = false;
         _launched = false;
     }
 }

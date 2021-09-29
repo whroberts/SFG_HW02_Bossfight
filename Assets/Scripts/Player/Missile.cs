@@ -6,7 +6,6 @@ public class Missile : ProjectileBase
 {
     protected override void ShootProjectile(GameObject missile)
     {
-        Debug.Log("Shoot Missile");
         LaunchFeedback();
     
         Rigidbody rb;

@@ -21,8 +21,11 @@ public class BossWeaponController : MonoBehaviour
     [SerializeField] bool _isRocket = true;
     [SerializeField] bool _isRock = true;
 
-    private GameObject[] rock;
-    public GameObject[] RockObject => rock;
+    private GameObject[] _newRocks;
+    public GameObject[] NewRocksObject => _newRocks;
+
+    private GameObject[] _newSawBlades;
+    public GameObject[] NewSawBlades => _newSawBlades;
 
     BossController _bossController;
 
@@ -31,37 +34,72 @@ public class BossWeaponController : MonoBehaviour
         _bossController = GetComponent<BossController>();
     }
 
-    public void SawBladeAttack()
+    public IEnumerator SawBladeAttack()
     {
-        if (_isSawBlade)
+        if (_player != null && !_bossController._bossTeleport.IsTeleporting)
         {
-            GameObject sawBlade = Instantiate(_sawBlade);
+            if (_isSawBlade)
+            {
+                int numSawBlades = Random.Range(1, 5);
+                _newSawBlades = new GameObject[numSawBlades];
+
+                for (int i = 0; i < _newSawBlades.Length; i++)
+                {
+                    _sawBladeArm.LookAt(_player.transform);
+                    _newSawBlades[i] = Instantiate(_sawBlade);
+                    _newSawBlades[i].name = "Sawblade: " + i.ToString();
+                    yield return new WaitForSeconds(Random.Range(0.5f, 1f));
+
+                    if (_bossController._bossTeleport.IsTeleporting)
+                    {
+                        StopAllCoroutines();
+                        break;
+                    }
+                }
+            }
         }
     }
 
     public IEnumerator RocksAttack()
     {
-        if (_isRock)
+        if (_player != null && !_bossController._bossTeleport.IsTeleporting)
         {
-            int numRocks = Random.Range(8, 15);
-            rock = new GameObject[numRocks];
-
-            for (int i = 0; i < rock.Length; i++)
+            if (_isRock)
             {
-                _launcher.gameObject.transform.localRotation = Quaternion.Euler(15f, 0f, Random.Range(-3f, 3f));
-                yield return new WaitForSeconds(0.25f);
-                rock[i] = Instantiate(_rock);
-                rock[i].name = "Rock: " + i.ToString();
-                yield return new WaitForSeconds(Random.Range(.2f, 0.3f));
+                int numRocks = Random.Range(8, 15);
+                _newRocks = new GameObject[numRocks];
+
+                for (int i = 0; i < _newRocks.Length; i++)
+                {
+                    _launcher.gameObject.transform.localRotation = Quaternion.Euler(15f, 0f, Random.Range(-3f, 3f));
+                    yield return new WaitForSeconds(0.25f);
+                    _newRocks[i] = Instantiate(_rock);
+                    _newRocks[i].name = "Rock: " + i.ToString();
+                    yield return new WaitForSeconds(Random.Range(.2f, 0.3f));
+
+                    if (_bossController._bossTeleport.IsTeleporting)
+                    {
+                        StopAllCoroutines();
+                        break;
+                    }
+                }
             }
         }
     }
 
     public void Rocket()
     {
-        if (_isRocket)
+        if (_player != null  && !_bossController._bossTeleport.IsTeleporting)
         {
-            GameObject rocket = Instantiate(_rocket);
+            if (_isRocket)
+            {
+                GameObject rocket = Instantiate(_rocket);
+
+                if (_bossController._bossTeleport.IsTeleporting)
+                {
+                    StopAllCoroutines();
+                }
+            }
         }
     }
 }

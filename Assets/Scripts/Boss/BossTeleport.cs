@@ -17,6 +17,7 @@ public class BossTeleport : MonoBehaviour
 
     BossEffects _bossEffects = null;
     BossMovement _bossMovement = null;
+    BossController _bossController = null;
 
     Vector3 _teleportStartingLocation;
     Vector3 _teleportLandingLocation;
@@ -30,6 +31,7 @@ public class BossTeleport : MonoBehaviour
 
         _bossEffects = GetComponent<BossEffects>();
         _bossMovement = GetComponent<BossMovement>();
+        _bossController = GetComponent<BossController>();
 
         _checkStartLocation = _teleportCheckObject.transform.position;
     }
@@ -52,6 +54,7 @@ public class BossTeleport : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
+        _isTeleporting = false;
         transform.position = _teleportLandingLocation;
         _bossMovement._movingPosition = transform.position;
 
@@ -74,8 +77,8 @@ public class BossTeleport : MonoBehaviour
 
         if (state)
         {
-            _isTeleporting = false;
             _teleportCheckObject.transform.localPosition = new Vector3(0, 2, 0);
+            _bossController._attacking = false;
         }
     }
 }

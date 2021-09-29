@@ -35,33 +35,36 @@ public class BossMovement : MonoBehaviour
 
     private void FollowPlayer()
     {
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, _player.rotation, _turnSpeed * Time.deltaTime);
-        transform.LookAt(_player.transform);   
-        _rb.freezeRotation = true;
+        if (_player != null)
+        {
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, _player.rotation, _turnSpeed * Time.deltaTime);
+            transform.LookAt(_player.transform);
+            _rb.freezeRotation = true;
 
-        if (Vector3.Distance(_rb.position, _player.position) > _offset + _tolerance)
-        {
-            MoveBoss(true);
-        }
-        else if (Vector3.Distance(_rb.position, _player.position) < _offset - _tolerance)
-        {
-            if (Vector3.Distance(_rb.position, _player.position) < 8f)
+            if (Vector3.Distance(_rb.position, _player.position) > _offset + _tolerance)
             {
-                if (!_bossTeleport.IsTeleporting)
+                MoveBoss(true);
+            }
+            else if (Vector3.Distance(_rb.position, _player.position) < _offset - _tolerance)
+            {
+                if (Vector3.Distance(_rb.position, _player.position) < 8f)
                 {
-                    print("do it");
-                    StartCoroutine(_bossTeleport.Teleport());
+                    if (!_bossTeleport.IsTeleporting)
+                    {
+                        StartCoroutine(_bossTeleport.Teleport());
+                    }
+                }
+                else
+                {
+                    MoveBoss(false);
                 }
             }
             else
             {
-                MoveBoss(false);
+                _rb.position = _rb.position;
             }
         }
-        else
-        {
-            _rb.position = _rb.position;
-        }
+        
     }
 
     private void MoveBoss(bool direction)

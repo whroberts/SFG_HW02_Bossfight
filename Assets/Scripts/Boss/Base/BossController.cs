@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class BossController : MonoBehaviour
 {
-    [SerializeField] float _eventDelay = 2f;
+    [SerializeField] float _eventDelay = 1f;
 
-    BossTeleport _bossTeleport;
+    [HideInInspector] public BossTeleport _bossTeleport;
     BossWeaponController _bossWeaponController;
 
-    public float _lastEvent;
+    public float _lastEvent = 0;
     public bool _attacking = false;
 
     private void Awake()
@@ -29,7 +29,7 @@ public class BossController : MonoBehaviour
 
         if ((randomizeAttack <= 1.0f) && (randomizeAttack > 0.75f))
         {
-            _bossWeaponController.SawBladeAttack();
+            StartCoroutine(_bossWeaponController.SawBladeAttack());
         }
         else if ((randomizeAttack <= 0.75f) && (randomizeAttack > 0.5))
         {
@@ -37,11 +37,15 @@ public class BossController : MonoBehaviour
         }
         else if ((randomizeAttack <= 0.5f) && (randomizeAttack > 0.25f) && !_bossTeleport.IsTeleporting)
         {
-             //StartCoroutine(_bossTeleport.Teleport());
+            StartCoroutine(_bossTeleport.Teleport());
         }
         else if ((randomizeAttack <= 0.25f) && (randomizeAttack >= 0.0f))
         {
             StartCoroutine(_bossWeaponController.RocksAttack());
+        }
+        else
+        {
+            _bossWeaponController.Rocket();
         }
     }
 
@@ -49,13 +53,12 @@ public class BossController : MonoBehaviour
     {
         if (Time.time - _lastEvent >= _eventDelay)
         {
-            //EventRandomization();
             if (!_attacking)
             {
-                StartCoroutine(_bossWeaponController.RocksAttack());
+                EventRandomization();
                 _attacking = true;
+                _lastEvent = Time.time;
             }
-            _lastEvent = Time.time;
         }
     }
 }

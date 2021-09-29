@@ -47,10 +47,7 @@ public class SawBlade : BossWeaponBase
 
     private void Update()
     {
-        if (_contact)
-        {
-            OnStop();
-        }
+        OnStop();
     }
 
     private void OnCollisionExit(Collision collision)
@@ -97,5 +94,10 @@ public class SawBlade : BossWeaponBase
             }
             Destroy(gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        _bossController._attacking = false;
     }
 }

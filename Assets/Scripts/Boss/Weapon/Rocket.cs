@@ -30,5 +30,6 @@ public class Rocket : BossWeaponBase
     private void OnDestroy()
     {
         _launched = false;
+        _bossController._attacking = false;
     }
 }

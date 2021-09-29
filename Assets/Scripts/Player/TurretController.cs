@@ -31,6 +31,9 @@ public class TurretController : MonoBehaviour
     public float BeginCharged => _beginCharge;
 
     public float _timeCharged = 0f;
+
+    float _lastFired = 0f;
+    float _fireRate = 0f;
     
     float _lastShot;
     private void Awake()
@@ -41,9 +44,13 @@ public class TurretController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Time.time - _lastFired >= _fireRate)
         {
-            LoadProjectile(_missile);
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                LoadProjectile(_missile);
+                _lastFired = Time.time;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -53,7 +60,8 @@ public class TurretController : MonoBehaviour
             _charging = true;
             LoadProjectile(_chargeOrb);
 
-        } else if (Input.GetKeyUp(KeyCode.Mouse1))
+        }
+        else if (Input.GetKeyUp(KeyCode.Mouse1))
         {
             _timeCharged = Time.time - _beginCharge;
             _charging = false;
@@ -63,6 +71,7 @@ public class TurretController : MonoBehaviour
     private void LoadProjectile(GameObject projectile)
     {
         newProjectile = Instantiate(projectile, _turret, false);
+        _chargeAudio.gameObject.transform.position = newProjectile.transform.position;
         Rigidbody rb = newProjectile.GetComponent<Rigidbody>();
         rb.velocity = transform.forward;
     }

@@ -29,10 +29,8 @@ public class Rock : BossWeaponBase
 
         if (boss == null && rock == null)
         {
-            print("1: " + other.name);
             if (damageable != null)
             {
-                print("2: " +  other.name);
                 _impactAudio = _hitPlayerSound;
                 _impactEffect = _hitPlayerEffect;
                 ImpactEffect();
@@ -48,9 +46,8 @@ public class Rock : BossWeaponBase
 
     private void OnDestroy()
     {
-        if (_bc.RockObject[_bc.RockObject.Length-1] == this.gameObject)
+        if (_bc.NewRocksObject[_bc.NewRocksObject.Length-1] == this.gameObject)
         {
-            print("made it");
             _bossController._attacking = false;
         }
     }

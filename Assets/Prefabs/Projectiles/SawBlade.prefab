@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7252616386849968504}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Art
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 7252616386919779045}
   - component: {fileID: 7252616386919779046}
   - component: {fileID: 7252616386919779047}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Blade (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -886,7 +886,7 @@ GameObject:
   - component: {fileID: 7252616387175439536}
   - component: {fileID: 7252616387175439565}
   - component: {fileID: 6430197745363199678}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SawBlade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -937,7 +937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 5
-  _launchSpeed: 20
+  _launchSpeed: 35
   _rotationStep: 15
   _launchEffect: {fileID: 6072728186875048445, guid: 403c4b396901b114a858f1a283ea5196,
     type: 3}
@@ -957,7 +957,7 @@ GameObject:
   - component: {fileID: 7252616387273250739}
   - component: {fileID: 7252616387273250740}
   - component: {fileID: 7252616387273250741}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Blade (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1798,7 +1798,7 @@ GameObject:
   - component: {fileID: 7252616387671663337}
   - component: {fileID: 7252616387671663338}
   - component: {fileID: 7252616387671663339}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Blade (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2640,7 +2640,7 @@ GameObject:
   - component: {fileID: 7252616388294945371}
   - component: {fileID: 7252616388294945372}
   - component: {fileID: 8907762776392215808}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Blade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
