@@ -13,10 +13,13 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     [SerializeField] ParticleSystem _deathEffect = null;
     [SerializeField] float _startingHealth = 100;
+
     public float StartingHealth => _startingHealth;
 
     [SerializeField] float _maxHealth = 100;
     public float MaxHealth => _maxHealth;
+
+    [SerializeField] public bool _godMode = false;
 
     private float _currentHealth = 0;
     public float CurrentHealth
@@ -39,15 +42,29 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void TakeDamage(float amount)
     {
-        _currentHealth -= amount;
-        Damaged?.Invoke(amount);
-        Camera?.Invoke();
-
-        if (_currentHealth <= 0)
+        if (!_godMode)
         {
-            Killed?.Invoke();
-            Kill();
+            _currentHealth -= amount;
+            Damaged?.Invoke(amount);
+            Camera?.Invoke();
+
+            if (_currentHealth <= 0)
+            {
+                Killed?.Invoke();
+                Kill();
+            }
         }
+    }
+
+    public void GodModeContainer(bool state)
+    {
+        _godMode = SetGodMode(state);
+    }
+
+    private bool SetGodMode(bool state)
+    {
+        _godMode = state;
+        return _godMode;
     }
 
     private void Kill()

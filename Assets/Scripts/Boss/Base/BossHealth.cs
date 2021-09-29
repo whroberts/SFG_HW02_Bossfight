@@ -41,7 +41,7 @@ public class BossHealth : MonoBehaviour, IDamageable
         _currentHealth -= amount;
         Damaged?.Invoke(amount);
 
-        if (_currentHealth <= 0)
+        if (_currentHealth < 1)
         {
             Kill();
             Killed?.Invoke();

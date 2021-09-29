@@ -61,13 +61,11 @@ public class MenuSystem : MonoBehaviour
     // OnPauseGame is called on event notify
     void OnPauseGame(bool state)
     {
-        print("paused");
-
+        StandardMenu();
         _pauseMenu.SetActive(true);
         _playerHUD.SetActive(false);
-
         PlayerInput(false);
-        //Time.timeScale = 0;
+        Time.timeScale = 0;
     }
 
     public void PlayerInput(bool state)
@@ -83,23 +81,38 @@ public class MenuSystem : MonoBehaviour
 
     void OnKilled()
     {
-        print("killed");
         if (_deathMenu != null)
         {
+            StandardMenu();
             _deathMenu.SetActive(true);
             PlayerInput(false);
+            //Time.timeScale = 0;
         }
 
     }
 
     void OnWinGame()
     {
-        print("win");
         if (_winMenu != null)
         {
+            StandardMenu();
             _winMenu.SetActive(true);
             PlayerInput(false);
+            //Time.timeScale = 0;
         }
     }
 
+    void StandardMenu()
+    {
+        _bc.StopAllCoroutines();
+        _bwc.StopAllCoroutines();
+        _ph.GodModeContainer(true);
+
+        AudioSource[] sceneSources = FindObjectsOfType<AudioSource>();
+
+        for (int i = 0; i < sceneSources.Length; i++)
+        {
+            Destroy(sceneSources[i].gameObject);
+        }
+    }
 }

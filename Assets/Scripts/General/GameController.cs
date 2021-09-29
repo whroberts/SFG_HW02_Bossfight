@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
 {
     // subject that will notify observers
     public event Action<bool> PauseGame = delegate { };
-
+    [SerializeField] PlayerHealth _ph = null;
 
     void Update()
     {
@@ -28,8 +28,15 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void TimeScale(int scale)
+    {
+        Time.timeScale = scale;
+    }
+
     public void ReloadScene(int scene)
     {
+        _ph.GodModeContainer(false);
+        Time.timeScale = 1;
         SceneManager.LoadScene(scene);
     }
 

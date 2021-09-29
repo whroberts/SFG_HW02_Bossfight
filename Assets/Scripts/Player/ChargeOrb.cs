@@ -145,7 +145,11 @@ public class ChargeOrb : ProjectileBase
         IDamageable damageable = boss.GetComponent<IDamageable>();
         BossMovement bm = rb.GetComponent<BossMovement>();
         BossController bc = rb.GetComponent<BossController>();
+        BossWeaponController bwc = rb.GetComponent<BossWeaponController>();
 
+
+        bc.StopAllCoroutines();
+        bwc.StopAllCoroutines();
         bc.enabled = false;
         bm.enabled = false;
 
@@ -155,7 +159,7 @@ public class ChargeOrb : ProjectileBase
 
         for (int i = 0; i < bossElectrified.main.duration; i++)
         {
-            rb.rotation = Quaternion.Euler(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(177f, 183f), UnityEngine.Random.Range(-3f, 3f));
+            rb.rotation *= Quaternion.Euler(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(-3f, 3f));
             damageable.TakeDamage(_electricDamage * _orbSize);
 
             yield return new WaitForSeconds(1f);
@@ -163,6 +167,16 @@ public class ChargeOrb : ProjectileBase
             if (i == bossElectrified.main.duration - 2)
             {
                 ImpactFeedback();
+
+                AudioSource[] source = FindObjectsOfType<AudioSource>();
+
+                for (int j = 0; j < source.Length; j++)
+                {
+                    if (source[j].name.Contains("Launch Feedback: ChargeOrb"))
+                    {
+                        Destroy(source[j]);
+                    }
+                }
             }
             else if (i == bossElectrified.main.duration - 1)
             {

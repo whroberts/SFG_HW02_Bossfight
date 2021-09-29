@@ -15,7 +15,7 @@ public class BossHealthBar : MonoBehaviour
 
     public BossHealth BossHealth => _bossHealth;
 
-    float _tempDamage = 2;
+    float _tempDamage = 0;
     float _storedDamage = 0;
 
     private void Awake()
@@ -47,19 +47,19 @@ public class BossHealthBar : MonoBehaviour
 
     private void ShowIncrement(float damage)
     {
-        _storedDamage += _tempDamage;
+        _tempDamage = _storedDamage + damage;
         _incrementalDamageValue.gameObject.SetActive(true);
-        _incrementalDamageValue.text = "- " + _storedDamage.ToString();
-        _tempDamage = damage;
+        _incrementalDamageValue.text = "- " + Mathf.Round(_tempDamage).ToString();
+        _storedDamage = _tempDamage;
         StartCoroutine(Decay());
     }
 
     private IEnumerator Decay()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         _incrementalDamageValue.text = "";
         _incrementalDamageValue.gameObject.SetActive(false);
         _storedDamage = 0;
-        _tempDamage = 2;
+        _tempDamage = 0;
     }
 }
