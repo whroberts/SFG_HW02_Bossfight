@@ -71,7 +71,10 @@ public class TurretController : MonoBehaviour
     private void LoadProjectile(GameObject projectile)
     {
         newProjectile = Instantiate(projectile, _turret, false);
-        _chargeAudio.gameObject.transform.position = newProjectile.transform.position;
+        if (_chargeAudio != null)
+        {
+            _chargeAudio.gameObject.transform.position = newProjectile.transform.position;
+        }
         Rigidbody rb = newProjectile.GetComponent<Rigidbody>();
         rb.velocity = transform.forward;
     }

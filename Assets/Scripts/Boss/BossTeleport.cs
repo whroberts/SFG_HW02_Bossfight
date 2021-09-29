@@ -39,7 +39,6 @@ public class BossTeleport : MonoBehaviour
     public IEnumerator Teleport()
     {
         _isTeleporting = true;
-        _collider.enabled = false;
         _teleportStartingLocation = transform.position;
 
         _teleportLandingLocation = new Vector3(Random.Range(_playableAreaMin.x, _playableAreaMax.x),
@@ -49,17 +48,16 @@ public class BossTeleport : MonoBehaviour
         _teleportCheckObject.transform.position = _teleportLandingLocation;
 
         yield return new WaitForSeconds(0.05f);
-
         StartCoroutine(BossVisuals(false));
 
         yield return new WaitForSeconds(1.5f);
 
         _isTeleporting = false;
+        _collider.enabled = true;
         transform.position = _teleportLandingLocation;
         _bossMovement._movingPosition = transform.position;
 
         _teleportCheckCollider.enabled = false;
-        _collider.enabled = true;
         StartCoroutine(BossVisuals(true));
     }
 
@@ -68,7 +66,7 @@ public class BossTeleport : MonoBehaviour
         _bossEffects.OnTeleport();
 
         yield return new WaitForSeconds(0.5f);
-
+        _collider.enabled = state;
         //_collider.enabled = state;
         for (int i = 0; i < _bossVisuals.Length; i++)
         {

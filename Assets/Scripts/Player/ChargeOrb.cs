@@ -146,7 +146,7 @@ public class ChargeOrb : ProjectileBase
         {
             print(i);
             rb.rotation = Quaternion.Euler(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(177f, 183f), UnityEngine.Random.Range(-3f, 3f));
-            damageable.TakeDamage(_electricDamage);
+            damageable.TakeDamage(_electricDamage * _orbSize);
 
             yield return new WaitForSeconds(1f);
 
