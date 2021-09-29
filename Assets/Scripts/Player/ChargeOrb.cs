@@ -127,7 +127,7 @@ public class ChargeOrb : ProjectileBase
             lighting.Stop();
         }
 
-        AudioSource failedChargeAudio = AudioHelper.PlayClip2D(_orbFailedChargeAudio, "Failed Charge Audio: " + gameObject.name.ToString(), 0.1f, _orbFailedChargeAudio.length);
+        AudioSource failedChargeAudio = AudioHelper.PlayClip2D(_orbFailedChargeAudio, "Failed Charge Audio: " + gameObject.name.ToString(), 0.1f, _orbFailedChargeAudio.length, 0f);
         failedChargeAudio.gameObject.transform.position = gameObject.transform.position;
         ParticleSystem failedChargeEffect = Instantiate(_orbFailedChargeEffect, transform.position, Quaternion.identity);
         Destroy(failedChargeEffect.gameObject, 1f);
@@ -144,6 +144,7 @@ public class ChargeOrb : ProjectileBase
 
         for (int i = 0; i < bossElectrified.main.duration; i++)
         {
+            rb.freezeRotation = false;
             rb.rotation = Quaternion.Euler(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(177f, 183f), UnityEngine.Random.Range(-3f, 3f));
             damageable.TakeDamage(_electricDamage * _orbSize);
 
@@ -157,6 +158,7 @@ public class ChargeOrb : ProjectileBase
             {
                 Destroy(bossElectrified.gameObject, 1f);
             }
+            _rb.freezeRotation = true;
         }
     }
 

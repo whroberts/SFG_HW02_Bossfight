@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] PlayerHealthUI _playerHealthUI = null;
+    BossHealth _boss;
 
     Quaternion _cameraStartingRotation;
 
@@ -13,6 +14,17 @@ public class CameraController : MonoBehaviour
     private void Awake()
     {
         _cameraStartingRotation = gameObject.transform.localRotation;
+        _boss = FindObjectOfType<BossHealth>();
+    }
+
+    private void FixedUpdate()
+    {
+        //MoveCamera();
+    }
+
+    void MoveCamera()
+    {
+        transform.LookAt(_boss.transform);
     }
 
     public IEnumerator CameraShake()

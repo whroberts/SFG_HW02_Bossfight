@@ -55,9 +55,9 @@ public class BossController : MonoBehaviour
         {
             if (!_attacking)
             {
-                EventRandomization();
+                //EventRandomization();
+                StartCoroutine(_bossWeaponController.SawBladeAttack());
                 _attacking = true;
-                //_lastEvent = Time.time;
             }
         }
     }

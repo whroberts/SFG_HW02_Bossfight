@@ -56,7 +56,7 @@ public class TurretController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             _beginCharge = Time.time;
-            _chargeAudio = AudioHelper.PlayClip2D(_orbChargeSound, "Charge Audio: " + _chargeOrb.name, 0.1f, 15f);
+            _chargeAudio = AudioHelper.PlayClip2D(_orbChargeSound, "Charge Audio: " + _chargeOrb.name, 0.1f, 15f, 0f);
             _charging = true;
             LoadProjectile(_chargeOrb);
 

@@ -20,12 +20,26 @@ public class BossWeaponController : MonoBehaviour
     [SerializeField] bool _isSawBlade = true;
     [SerializeField] bool _isRocket = true;
     [SerializeField] bool _isRock = true;
+    [SerializeField] bool _burstAllowed = true;
+
+    [Header("Override")]
+    [SerializeField] bool _forceBurst = false;
+
+    [Header("Charge Sound")]
+    [SerializeField] private AudioClip _burstAudio = null;
+    public AudioClip ChargeAudio => _burstAudio;
+    
+    AudioSource chargeAudio;
 
     private GameObject[] _newRocks;
     public GameObject[] NewRocksObject => _newRocks;
 
     private GameObject[] _newSawBlades;
     public GameObject[] NewSawBlades => _newSawBlades;
+
+    private int _burstSawBlades;
+    private bool _burst = false;
+    public bool Burst => _burst;
 
     BossController _bossController;
 
@@ -40,24 +54,75 @@ public class BossWeaponController : MonoBehaviour
         {
             if (_isSawBlade)
             {
-                int numSawBlades = Random.Range(1, 5);
-                _newSawBlades = new GameObject[numSawBlades];
-
-                for (int i = 0; i < _newSawBlades.Length; i++)
+                if (_forceBurst)
                 {
-                    _sawBladeArm.LookAt(_player.transform);
-                    _newSawBlades[i] = Instantiate(_sawBlade);
-                    _newSawBlades[i].name = "Sawblade: " + i.ToString();
-                    yield return new WaitForSeconds(Random.Range(0.5f, 1f));
-
-                    if (_bossController._bossTeleport.IsTeleporting)
+                    _burst = true;
+                    _burstSawBlades = Random.Range(10, 20);
+                }
+                else if (!_forceBurst)
+                {
+                    if (Random.Range(1, 5) == 3 && _burstAllowed)
                     {
-                        StopAllCoroutines();
-                        break;
+                        _burst = true;
+                        _burstSawBlades = Random.Range(10, 20);
+                    }
+                }
+
+                if (_burst)
+                {
+                    StartCoroutine(BurstChargeAttack());
+                }
+                else if (!_burst)
+                {
+                    int numSawBlades = Random.Range(1, 5);
+                    _newSawBlades = new GameObject[numSawBlades];
+
+                    for (int i = 0; i < _newSawBlades.Length; i++)
+                    {
+                        _sawBladeArm.LookAt(_player.transform);
+                        _newSawBlades[i] = Instantiate(_sawBlade);
+                        _newSawBlades[i].name = "Sawblade: " + i.ToString();
+                        yield return new WaitForSeconds(Random.Range(0.5f, 1f));
+
+                        if (_bossController._bossTeleport.IsTeleporting)
+                        {
+                            StopAllCoroutines();
+                            break;
+                        }
                     }
                 }
             }
         }
+    }
+    public IEnumerator BurstChargeAttack()
+    {
+
+        AudioHelper.PlayClip2D(_burstAudio, "Burst: " + gameObject.name.ToString(), 0.5f, _burstAudio.length / 2f, 0f); 
+        yield return new WaitForSeconds(_burstAudio.length / 2f);
+
+        int numSawBlades = _burstSawBlades;
+        _newSawBlades = new GameObject[numSawBlades];
+        
+
+        for (int i = 0; i < _newSawBlades.Length; i++)
+        {
+            _sawBladeArm.transform.LookAt(_player.transform);
+            Quaternion playerLocation = _sawBladeArm.transform.rotation;
+            _sawBladeArm.rotation = playerLocation * Quaternion.Euler(0f, Random.Range(-25f, 25f), 0f);
+
+
+            _newSawBlades[i] = Instantiate(_sawBlade);
+            _newSawBlades[i].name = "Sawblade: " + i.ToString();
+
+            yield return new WaitForSeconds(Random.Range(0.2f, 0.4f));
+
+            if (_bossController._bossTeleport.IsTeleporting)
+            {
+                StopAllCoroutines();
+                break;
+            }
+        }
+        _burst = false;
     }
 
     public IEnumerator RocksAttack()

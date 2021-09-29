@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
     PlayerHealth _playerHealth;
 
     // subject that will notify observers
-    public event Action PauseGame = delegate { };
+    public event Action<bool> PauseGame = delegate { };
 
     private void Awake()
     {
@@ -38,8 +38,17 @@ public class GameController : MonoBehaviour
         } 
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit();
+            ExitGame();
         }
+        else if (Input.GetKeyDown(KeyCode.P))
+        {
+            PauseGame?.Invoke(false);
+        }
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
     void OnKilled()

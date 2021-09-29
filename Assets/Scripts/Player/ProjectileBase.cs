@@ -87,7 +87,7 @@ public abstract class ProjectileBase : MonoBehaviour
     {
         if (_launchSound != null)
         {
-            AudioSource launchSound = AudioHelper.PlayClip2D(_launchSound, "Launch Feedback: " + gameObject.name.ToString(), .01f, _launchSound.length);
+            AudioSource launchSound = AudioHelper.PlayClip2D(_launchSound, "Launch Feedback: " + gameObject.name.ToString(), .01f, _launchSound.length, 0f);
             launchSound.gameObject.transform.position = gameObject.transform.localPosition;
         }
 
@@ -117,7 +117,7 @@ public abstract class ProjectileBase : MonoBehaviour
         {
             //calls the audio helper and launces an audio source object
             //adds a name to the object
-            AudioSource onHitSound = AudioHelper.PlayClip2D(_onHitSound, "Impact Sound: " + gameObject.name.ToString(), .01f, _onHitSound.length);
+            AudioSource onHitSound = AudioHelper.PlayClip2D(_onHitSound, "Impact Sound: " + gameObject.name.ToString(), .01f, _onHitSound.length, 0f);
             onHitSound.gameObject.transform.position = gameObject.transform.position;
         }
 

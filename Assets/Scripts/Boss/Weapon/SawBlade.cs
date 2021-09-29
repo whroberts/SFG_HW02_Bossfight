@@ -8,14 +8,41 @@ public class SawBlade : BossWeaponBase
     ParticleSystem impactEffect;
     AudioSource impactAudio;
 
-    protected override void Attack(GameObject weapon)
+    protected override void Attack(GameObject sawBlade)
+    {
+        if (_bc.Burst)
+        {
+            BurstAttack(sawBlade);
+        }
+        else if (!_bc.Burst)
+        {
+            RegularAttack(sawBlade);
+        }
+
+    }
+
+    private void RegularAttack(GameObject sawBlade)
     {
         if (!_contact)
         {
-            weapon.transform.position = _bc._sawBladeArm.position;
-            weapon.transform.LookAt(_bc._player.transform);
-            _rb.velocity = transform.forward * _launchSpeed;
+            sawBlade.transform.position = _bc._sawBladeArm.position;
+            sawBlade.transform.LookAt(_bc._player.transform);
+            _rb.velocity = _bc._sawBladeArm.transform.forward * _launchSpeed;
         }
+    }
+
+    private void BurstAttack(GameObject sawBlade)
+    {
+        if (!_contact)
+        {
+
+            sawBlade.transform.position = _bc._sawBladeArm.position;
+            sawBlade.transform.LookAt(_bc._player.transform);
+            _rb.velocity = _bc._sawBladeArm.transform.forward * _launchSpeed;
+            
+
+         }
+
     }
 
     protected override void RotateEvent()
@@ -63,11 +90,11 @@ public class SawBlade : BossWeaponBase
 
     void BladeImpactEffect()
     {
-        if (_impactEffect != null)
+        if (_impactEffect != null && _impactAudio != null)
         {
-            impactEffect = Instantiate(_impactEffect,transform.position, Quaternion.identity);
+            impactEffect =  Instantiate(_impactEffect, gameObject.transform, false);
 
-            impactAudio = AudioHelper.PlayClip2D(_impactAudio, "Impact Sound2: " + gameObject.name, 0.01f, _impactAudio.length);
+            impactAudio = AudioHelper.PlayClip2D(_impactAudio, "Impact Sound2: " + gameObject.name, 0.04f, _impactAudio.length, 0f);
         }
     }
 
@@ -75,7 +102,7 @@ public class SawBlade : BossWeaponBase
     {
         if (_impactEffect != null)
         {
-            Destroy(impactAudio.gameObject);
+            //Destroy(impactAudio.gameObject);
         }
     }
 
@@ -83,16 +110,9 @@ public class SawBlade : BossWeaponBase
     {
         if (_rb.velocity.magnitude <= new Vector3(0.1f, 0.1f, 0.1f).magnitude)
         {
-            print("huh 1");
-            if (impactAudio != null)
+            if (impactAudio != null && impactEffect != null)
             {
-                print("huh 2");
                 Destroy(impactAudio.gameObject);
-            }
-
-            if (impactEffect != null)
-            {
-                print("huh 3");
                 Destroy(impactEffect.gameObject);
             }
             Destroy(gameObject);
